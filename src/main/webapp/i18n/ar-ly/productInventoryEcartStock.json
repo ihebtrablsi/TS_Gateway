@@ -1,0 +1,31 @@
+{
+  "tsGatewayAngApp": {
+    "productInventoryEcartStock": {
+      "home": {
+        "title": "Ecart Stocks",
+        "createLabel": "Create a new Ecart Stock",
+        "createOrEditLabel": "Create or edit a Ecart Stock",
+        "notFound": "No Ecart Stocks found"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete Ecart Stock {{ id }}?"
+      },
+      "detail": {
+        "title": "Ecart Stock"
+      },
+      "quantiteTheorique": "Quantite Theorique",
+      "quantitePhysique": "Quantite Physique",
+      "ecart": "Ecart",
+      "commentaire": "Commentaire",
+      "produit": "Produit",
+      "audit": "Audit"
+    }
+  },
+  "productInventoryApp": {
+    "productInventoryEcartStock": {
+      "created": "A new Ecart Stock is created with identifier {{ param }}",
+      "updated": "A Ecart Stock is updated with identifier {{ param }}",
+      "deleted": "A Ecart Stock is deleted with identifier {{ param }}"
+    }
+  }
+}

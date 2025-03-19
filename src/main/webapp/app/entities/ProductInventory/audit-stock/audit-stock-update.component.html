@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-audit-stock-heading" jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.home.createOrEditLabel">Create or edit a Audit Stock</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.dateAudit" for="field_dateAudit">Date Audit</label>
+                    <div class="d-flex">
+                        <input id="field_dateAudit" type="datetime-local" class="form-control" name="dateAudit" formControlName="dateAudit" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dateAudit')!.invalid && (editForm.get('dateAudit')!.dirty || editForm.get('dateAudit')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dateAudit')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dateAudit')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.statut" for="field_statut">Statut</label>
+                    <input type="text" class="form-control" name="statut" id="field_statut"
+                           formControlName="statut"/>
+                    <div *ngIf="editForm.get('statut')!.invalid && (editForm.get('statut')!.dirty || editForm.get('statut')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('statut')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.commentaire" for="field_commentaire">Commentaire</label>
+                    <input type="text" class="form-control" name="commentaire" id="field_commentaire"
+                           formControlName="commentaire"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.depot" for="field_depot">Depot</label>
+                    <select class="form-control" id="field_depot" name="depot" formControlName="depotId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="depotOption.id" *ngFor="let depotOption of depots; trackBy: trackById">{{ depotOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+{
+  "name": "Code",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "produit",
+      "otherEntityRelationshipName": "code",
+      "relationshipName": "produit",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20250319101221",
+  "entityTableName": "code",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["TS_Gateway_ANG", "ProductInventory"],
+  "microserviceName": "ProductInventory"
+}

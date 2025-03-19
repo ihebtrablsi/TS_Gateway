@@ -1,0 +1,30 @@
+{
+  "tsGatewayAngApp": {
+    "productInventoryPromotion": {
+      "home": {
+        "title": "Promotions",
+        "createLabel": "Créer un nouveau Promotion",
+        "createOrEditLabel": "Créer ou éditer un Promotion",
+        "notFound": "Aucun Promotion trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Promotion {{ id }} ?"
+      },
+      "detail": {
+        "title": "Promotion"
+      },
+      "nom": "Nom",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "remise": "Remise",
+      "produit": "Produit"
+    }
+  },
+  "productInventoryApp": {
+    "productInventoryPromotion": {
+      "created": "Un nouveau Promotion a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Promotion avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Promotion avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

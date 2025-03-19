@@ -1,0 +1,32 @@
+{
+  "tsGatewayAngApp": {
+    "clientSalesActionCommerciale": {
+      "home": {
+        "title": "Action Commerciales",
+        "createLabel": "Create a new Action Commerciale",
+        "createOrEditLabel": "Create or edit a Action Commerciale",
+        "notFound": "No Action Commerciales found"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete Action Commerciale {{ id }}?"
+      },
+      "detail": {
+        "title": "Action Commerciale"
+      },
+      "nom": "Nom",
+      "description": "Description",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "typeAction": "Type Action",
+      "statut": "Statut",
+      "pointDeVente": "Point De Vente"
+    }
+  },
+  "clientSalesApp": {
+    "clientSalesActionCommerciale": {
+      "created": "A new Action Commerciale is created with identifier {{ param }}",
+      "updated": "A Action Commerciale is updated with identifier {{ param }}",
+      "deleted": "A Action Commerciale is deleted with identifier {{ param }}"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "tsGatewayAngApp": {
+    "productInventoryFamilleProduit": {
+      "home": {
+        "title": "FamilleProduits",
+        "createLabel": "Créer un nouveau Famille Produit",
+        "createOrEditLabel": "Créer ou éditer un Famille Produit",
+        "notFound": "Aucun Famille Produit trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Famille Produit {{ id }} ?"
+      },
+      "detail": {
+        "title": "Famille Produit"
+      },
+      "nom": "Nom",
+      "description": "Description",
+      "options": "Options"
+    }
+  },
+  "productInventoryApp": {
+    "productInventoryFamilleProduit": {
+      "created": "Un nouveau Famille Produit a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Famille Produit avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Famille Produit avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

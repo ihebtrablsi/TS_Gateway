@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="actionCommerciale">
+            <h2><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.detail.title">Action Commerciale</span> {{ actionCommerciale.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.nom">Nom</span></dt>
+                <dd>
+                    <span>{{ actionCommerciale.nom }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.description">Description</span></dt>
+                <dd>
+                    <span>{{ actionCommerciale.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.dateDebut">Date Debut</span></dt>
+                <dd>
+                    <span>{{ actionCommerciale.dateDebut }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.dateFin">Date Fin</span></dt>
+                <dd>
+                    <span>{{ actionCommerciale.dateFin }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.typeAction">Type Action</span></dt>
+                <dd>
+                    <span>{{ actionCommerciale.typeAction }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.statut">Statut</span></dt>
+                <dd>
+                    <span>{{ actionCommerciale.statut }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.pointDeVente">Point De Vente</span></dt>
+                <dd>
+                    <div *ngIf="actionCommerciale.pointDeVenteId">
+                        <a [routerLink]="['/point-de-vente', actionCommerciale.pointDeVenteId, 'view']">{{ actionCommerciale.pointDeVenteId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/action-commerciale', actionCommerciale.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

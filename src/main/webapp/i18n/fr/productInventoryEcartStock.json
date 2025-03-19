@@ -1,0 +1,31 @@
+{
+  "tsGatewayAngApp": {
+    "productInventoryEcartStock": {
+      "home": {
+        "title": "EcartStocks",
+        "createLabel": "Créer un nouveau Ecart Stock",
+        "createOrEditLabel": "Créer ou éditer un Ecart Stock",
+        "notFound": "Aucun Ecart Stock trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Ecart Stock {{ id }} ?"
+      },
+      "detail": {
+        "title": "Ecart Stock"
+      },
+      "quantiteTheorique": "Quantite Theorique",
+      "quantitePhysique": "Quantite Physique",
+      "ecart": "Ecart",
+      "commentaire": "Commentaire",
+      "produit": "Produit",
+      "audit": "Audit"
+    }
+  },
+  "productInventoryApp": {
+    "productInventoryEcartStock": {
+      "created": "Un nouveau Ecart Stock a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Ecart Stock avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Ecart Stock avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

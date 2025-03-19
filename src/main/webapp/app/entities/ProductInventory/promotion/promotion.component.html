@@ -1,0 +1,83 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.home.title">Promotions</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-promotion" [routerLink]="['/promotion/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="tsGatewayAngApp.productInventoryPromotion.home.createLabel">
+            Create a new Promotion
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="promotions?.length === 0">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.home.notFound">No promotions found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="promotions && promotions.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="nom"><span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.nom">Nom</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateDebut"><span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.dateDebut">Date Debut</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateFin"><span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.dateFin">Date Fin</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="remise"><span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.remise">Remise</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="produitId"><span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.produit">Produit</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let promotion of promotions ;trackBy: trackId">
+                    <td><a [routerLink]="['/promotion', promotion.id, 'view']">{{ promotion.id }}</a></td>
+                    <td>{{ promotion.nom }}</td>
+                    <td>{{ promotion.dateDebut | date:'medium' }}</td>
+                    <td>{{ promotion.dateFin | date:'medium' }}</td>
+                    <td>{{ promotion.remise }}</td>
+                    <td>
+                        <div *ngIf="promotion.produitId">
+                            <a [routerLink]="['/produit', promotion.produitId , 'view']" >{{ promotion.produitId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/promotion', promotion.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/promotion', promotion.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(promotion)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="promotions && promotions.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

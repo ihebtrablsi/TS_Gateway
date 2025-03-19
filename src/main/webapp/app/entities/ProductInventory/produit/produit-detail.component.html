@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="produit">
+            <h2><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.detail.title">Produit</span> {{ produit.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.nom">Nom</span></dt>
+                <dd>
+                    <span>{{ produit.nom }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.description">Description</span></dt>
+                <dd>
+                    <span>{{ produit.description }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.prix">Prix</span></dt>
+                <dd>
+                    <span>{{ produit.prix }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.stock">Stock</span></dt>
+                <dd>
+                    <span>{{ produit.stock }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.categorie">Categorie</span></dt>
+                <dd>
+                    <span>{{ produit.categorie }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.imageUrl">Image Url</span></dt>
+                <dd>
+                    <span>{{ produit.imageUrl }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.details">Details</span></dt>
+                <dd>
+                    <span>{{ produit.details }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryProduit.famille">Famille</span></dt>
+                <dd>
+                    <div *ngIf="produit.familleId">
+                        <a [routerLink]="['/famille-produit', produit.familleId, 'view']">{{ produit.familleId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/produit', produit.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

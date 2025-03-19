@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="client">
+            <h2><span jhiTranslate="tsGatewayAngApp.clientSalesClient.detail.title">Client</span> {{ client.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesClient.nom">Nom</span></dt>
+                <dd>
+                    <span>{{ client.nom }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesClient.email">Email</span></dt>
+                <dd>
+                    <span>{{ client.email }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesClient.telephone">Telephone</span></dt>
+                <dd>
+                    <span>{{ client.telephone }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesClient.adresse">Adresse</span></dt>
+                <dd>
+                    <span>{{ client.adresse }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesClient.typeClient">Type Client</span></dt>
+                <dd>
+                    <span>{{ client.typeClient }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/client', client.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

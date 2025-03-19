@@ -1,0 +1,89 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.home.title">Ecart Stocks</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-ecart-stock" [routerLink]="['/ecart-stock/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.home.createLabel">
+            Create a new Ecart Stock
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="ecartStocks?.length === 0">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.home.notFound">No ecartStocks found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="ecartStocks && ecartStocks.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="quantiteTheorique"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.quantiteTheorique">Quantite Theorique</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="quantitePhysique"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.quantitePhysique">Quantite Physique</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="ecart"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.ecart">Ecart</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="commentaire"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.commentaire">Commentaire</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="produitId"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.produit">Produit</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="auditId"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.audit">Audit</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ecartStock of ecartStocks ;trackBy: trackId">
+                    <td><a [routerLink]="['/ecart-stock', ecartStock.id, 'view']">{{ ecartStock.id }}</a></td>
+                    <td>{{ ecartStock.quantiteTheorique }}</td>
+                    <td>{{ ecartStock.quantitePhysique }}</td>
+                    <td>{{ ecartStock.ecart }}</td>
+                    <td>{{ ecartStock.commentaire }}</td>
+                    <td>
+                        <div *ngIf="ecartStock.produitId">
+                            <a [routerLink]="['/produit', ecartStock.produitId , 'view']" >{{ ecartStock.produitId }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="ecartStock.auditId">
+                            <a [routerLink]="['/audit-stock', ecartStock.auditId , 'view']" >{{ ecartStock.auditId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/ecart-stock', ecartStock.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/ecart-stock', ecartStock.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(ecartStock)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="ecartStocks && ecartStocks.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>
