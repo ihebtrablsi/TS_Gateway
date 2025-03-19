@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity ActionCommerciale.
+    -->
+    <changeSet id="20250319102021-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="point_de_vente_id"
+                                 baseTableName="action_commerciale"
+                                 constraintName="fk_action_commerciale_point_de_vente_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="point_de_vente"/>
+
+    </changeSet>
+</databaseChangeLog>

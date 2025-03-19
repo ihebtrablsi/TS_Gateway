@@ -1,0 +1,30 @@
+{
+  "name": "PanierBonus",
+  "fields": [
+    {
+      "fieldName": "totalPoints",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "totalValeur",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20250319102621",
+  "entityTableName": "panier_bonus",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["TS_Gateway_ANG", "ClientSales"],
+  "microserviceName": "ClientSales"
+}
