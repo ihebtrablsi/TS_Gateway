@@ -1,0 +1,130 @@
+package com.africom.finance.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import java.io.Serializable;
+import java.time.Instant;
+
+/**
+ * A Bonus.
+ */
+@Entity
+@Table(name = "bonus")
+public class Bonus implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    private Long id;
+
+    @NotNull
+    @DecimalMin(value = "0")
+    @Column(name = "montant", nullable = false)
+    private Double montant;
+
+    @NotNull
+    @Column(name = "date_attribution", nullable = false)
+    private Instant dateAttribution;
+
+    @NotNull
+    @Column(name = "statut", nullable = false)
+    private String statut;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "bonuses", allowSetters = true)
+    private Incentive incentive;
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Double getMontant() {
+        return montant;
+    }
+
+    public Bonus montant(Double montant) {
+        this.montant = montant;
+        return this;
+    }
+
+    public void setMontant(Double montant) {
+        this.montant = montant;
+    }
+
+    public Instant getDateAttribution() {
+        return dateAttribution;
+    }
+
+    public Bonus dateAttribution(Instant dateAttribution) {
+        this.dateAttribution = dateAttribution;
+        return this;
+    }
+
+    public void setDateAttribution(Instant dateAttribution) {
+        this.dateAttribution = dateAttribution;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public Bonus statut(String statut) {
+        this.statut = statut;
+        return this;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public Incentive getIncentive() {
+        return incentive;
+    }
+
+    public Bonus incentive(Incentive incentive) {
+        this.incentive = incentive;
+        return this;
+    }
+
+    public void setIncentive(Incentive incentive) {
+        this.incentive = incentive;
+    }
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Bonus)) {
+            return false;
+        }
+        return id != null && id.equals(((Bonus) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+        return "Bonus{" +
+            "id=" + getId() +
+            ", montant=" + getMontant() +
+            ", dateAttribution='" + getDateAttribution() + "'" +
+            ", statut='" + getStatut() + "'" +
+            "}";
+    }
+}
