@@ -1,0 +1,329 @@
+$font-family: 'SF Mono';
+$Parent-font-size-min: 1.2vw;
+$Child-font-size-min: 1.1vw;
+$Parent-font-size-moy: 1.09vw;
+$Child-font-size-moy: 1vw;
+$Parent-font-size-max: 1vw;
+$Child-font-size-max: 0.7vw;
+
+.leftmenudiv {
+  padding-top: 40%;
+  height: 100vh;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+.separation {
+  border-top: 1px solid rgba(0, 46, 196, 0.45);
+  margin-top: 0.5rem;
+  margin-bottom: 0.53rem;
+}
+
+.displayNone {
+  display: none;
+}
+
+.displayBlock {
+  display: block;
+}
+
+//#########   Span
+@media only screen and (min-width: 1400px) {
+  .spanParent {
+    font-family: $font-family;
+    font-size: $Parent-font-size-max;
+    margin-left: 30px;
+  }
+
+  .spanClild {
+    font-family: $font-family;
+    font-size: $Child-font-size-max;
+    margin-left: 30px;
+  }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .spanParent {
+    font-family: $font-family;
+    font-size: $Parent-font-size-moy;
+    margin-left: 22px;
+  }
+
+  .spanClild {
+    font-family: $font-family;
+    font-size: $Child-font-size-moy;
+    margin-left: 22px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .spanParent {
+    font-family: $font-family;
+    font-size: $Parent-font-size-min;
+    margin-left: 22px;
+  }
+
+  .spanClild {
+    font-family: $font-family;
+    font-size: $Child-font-size-min;
+    margin-left: 30px;
+  }
+}
+
+//.spanParent {
+//  font-family: $font-family;
+//  font-size: $Parent-font-size;
+//  margin-left: 22px;
+//}
+//
+//.spanClild {
+//  font-family: $font-family;
+//  font-size: $Child-font-size;
+//  margin-left: 22px;
+//}
+///////////////##################         Parent
+
+//#########   button
+.buttonSelected {
+  border-radius: 18px;
+  width: 100%;
+  color: #fff;
+  background-color: rgba(156, 158, 177, 0.45);
+  border-color: rgba(0, 46, 196, 0);
+}
+
+.buttonNotSelected {
+  width: 100%;
+  color: #000;
+  background-color: rgba(0, 46, 196, 0);
+  border-color: rgba(0, 46, 196, 0);
+  float: left;
+}
+
+//#########   ligne colone
+
+.trTop,
+.tdTop {
+  padding: 0rem;
+  vertical-align: top;
+  border-top: 1px solid rgba(0, 46, 196, 0);
+  border-bottom: 1px solid rgba(0, 46, 196, 0);
+}
+
+.trBot,
+.tdBot {
+  padding: 0rem;
+  vertical-align: top;
+  border-top: 1px solid rgba(0, 46, 196, 0);
+  border-bottom: 1px solid rgba(0, 46, 196, 0);
+}
+
+.trMid,
+.tdMid {
+  padding: 0rem;
+  vertical-align: top;
+  border-top: 1px solid rgba(0, 46, 196, 0);
+  border-bottom: 1px solid rgba(0, 46, 196, 0);
+}
+
+///////////////##################         Child
+
+//#########   button
+
+.buttonChildSelected {
+  border-radius: 18px;
+  float: right;
+  width: 80%;
+  color: #fff;
+  background-color: rgba(124, 146, 212, 0.7);
+  border-color: rgba(0, 46, 196, 0);
+}
+
+.buttonChildNotSelected {
+  width: 80%;
+  float: right;
+  color: #000;
+  background-color: rgba(0, 46, 196, 0);
+  border-color: rgba(0, 46, 196, 0);
+  border-top-color: rgba(0, 46, 196, 0.45);
+}
+
+//#########   ligne colone
+.trChild,
+.tdChild {
+  padding: 0rem;
+  vertical-align: top;
+  border-top: 1px solid rgba(0, 46, 196, 0);
+}
+
+// #####################  icons
+
+.nouveauIcon {
+  margin-right: 5px;
+  display: flex;
+
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.departementIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/departement.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.AffectationIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/Affectation.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.GestionAbsenceIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/gestionAbsence.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.fonctionIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/fonction.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.AdministrationIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/Administration.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.interimIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/interim.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.organigrammeIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/organigramme.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.absenceIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/absence.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.gradeIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/grade.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.personneIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/personne.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.contratIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/contrat.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+.SocieteIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/Societe.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+
+.AcceuilIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/Acceuil.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+
+.siteIcon {
+  margin-right: 5px;
+  display: flex;
+  background-image: url('../../../content/menuIcons/site.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-origin: content-box;
+}
+
+.arrowBot {
+  margin-right: 5px;
+  background-image: url('../../../content/menuIcons/arrow down.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+}
+
+.arrowBot:hover {
+  background-color: rgb(127, 129, 151);
+}
+
+.arrowBot2 {
+  margin-right: 5px;
+  background-image: url('../../../content/menuIcons/arrow down2.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+}
+
+.arrowRight {
+  margin-right: 5px;
+  background-image: url('../../../content/menuIcons/arrow right.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+}
+
+.arrowRight2 {
+  margin-right: 5px;
+  background-image: url('../../../content/menuIcons/arrow right2.svg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+}
+
+.arrowUp {
+  margin-right: 5px;
+
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-origin: content-box;
+}

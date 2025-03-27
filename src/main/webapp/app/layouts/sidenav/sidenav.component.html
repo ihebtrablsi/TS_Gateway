@@ -1,0 +1,239 @@
+<div class="leftmenudiv">
+
+    <table *ngIf="isAuthenticated() && currentNav == 'tableaubord'" class="table">
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN]" class="trTop">
+            <td class="tdTop" [ngClass]="{'active': selectedParentButton === 'Home'}">
+                <button class="btn btn-primary AcceuilIcon "
+                        [ngClass]="selectedParentButton=='Home'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['']"
+                        (click)="selectedParentButton='Home';selectedChildButton='';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.home"
+                          style="margin-right: 5px"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <!--                        routerLink="societe" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"-->
+
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton=='Home'"
+            class="solid separation">
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton!='Home'"
+            class="solid separation">
+
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN,Authority.USER]" class="trTop">
+            <td class="tdTop " [ngClass]="selectedParentButton=='societe'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary SocieteIcon "
+                        [ngClass]="selectedParentButton=='societe'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['/societe']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                        (click)="selectedParentButton='societe';selectedChildButton='site';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.entities.orgaCareSociete"
+                          style="margin-right: 5px"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton!='societe'"
+            class="solid separation">
+        <tr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton=='societe'"
+            class="trChild">
+            <td class="tdChild ">
+                <button class="btn btn-primary siteIcon"
+                        [ngClass]="selectedChildButton=='site'?'buttonChildSelected':'buttonChildNotSelected'"
+                        [routerLink]="['/site']" (click)="selectedChildButton='site'">
+                    <span class="spanClild"
+                          jhiTranslate="global.menu.entities.orgaCareSite"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton=='societe'"
+            class="solid separation">
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN]" class="trTop">
+
+            <td class="tdTop" [ngClass]="{'active': selectedParentButton === 'personne'}">
+                <button class="btn btn-primary personneIcon "
+                        [ngClass]="selectedParentButton=='personne'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['/personne']"
+                        (click)="selectedParentButton='personne';selectedChildButton='';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.entities.orgaCarePersonne"
+                          style="margin-right: 5px"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton=='personne'"
+            class="solid separation">
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton!='personne'"
+            class="solid separation">
+
+
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN]" class="trTop">
+            <td class="tdTop" [ngClass]="{'active': selectedParentButton === 'contrat'}">
+                <button class="btn btn-primary contratIcon "
+                        [ngClass]="selectedParentButton=='contrat'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['/contrat']"
+                        (click)="selectedParentButton='contrat';selectedChildButton='';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.entities.orgaCareContrat"
+                          style="margin-right: 5px"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton=='contrat'"
+            class="solid separation">
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton!='contrat'"
+            class="solid separation">
+
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN]" class="trTop">
+
+            <td class="tdTop" [ngClass]="{'active': selectedParentButton === 'departement'}">
+                <button class="btn btn-primary departementIcon "
+                        [ngClass]="selectedParentButton=='departement'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['/departement']"
+                        (click)="selectedParentButton='departement';selectedChildButton='';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.entities.orgaCareDepartement"
+                          style="margin-right: 5px"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton=='departement'"
+            class="solid separation">
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton!='departement'"
+            class="solid separation">
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN]" class="trTop">
+            <td class="tdTop" [ngClass]="{'active': selectedParentButton === 'organigramme'}">
+                <button class="btn btn-primary organigrammeIcon "
+                        [ngClass]="selectedParentButton=='organigramme'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['/organigramme']"
+                        (click)="selectedParentButton='organigramme';selectedChildButton='';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.entities.orgaCareOrganigramme"
+                          style="margin-right: 5px"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton=='organigramme'"
+            class="solid separation">
+        <hr *ngIf="hasAnyAuthority([Authority.ADMIN]) && selectedParentButton!='organigramme'"
+            class="solid separation">
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN]"
+            class="trTop">
+            <td class="tdTop " [ngClass]="selectedParentButton=='Administration'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary AdministrationIcon "
+                        [ngClass]="selectedParentButton=='Administration'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['']"
+                        (click)="selectedParentButton='Administration';selectedChildButton='grade';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.admin.main"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <hr *ngIf=" selectedParentButton!='Administration'  && hasAnyAuthority([Authority.ADMIN]) "
+            class="solid separation">
+        <tr *ngIf="selectedParentButton=='Administration' && hasAnyAuthority([Authority.ADMIN])"
+            class="trChild">
+            <td class="tdChild">
+                <button
+                    [ngClass]="selectedChildButton=='grade'?'buttonChildSelected':'buttonChildNotSelected'"
+                    class="btn btn-primary   gradeIcon"
+                    [routerLink]="['/grade']"
+                    (click)="selectedChildButton='grade'">
+                    <span class="spanClild"
+                          jhiTranslate="global.menu.entities.orgaCareGrade"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="selectedParentButton=='Administration' && hasAnyAuthority([Authority.ADMIN ])"
+            class="trChild">
+            <td class="tdChild">
+                <button
+                    [ngClass]="selectedChildButton=='fonction'?'buttonChildSelected':'buttonChildNotSelected'"
+                    class="btn btn-primary   fonctionIcon"
+                    [routerLink]="['/fonction']"
+                    (click)="selectedChildButton='fonction'">
+                    <span class="spanClild"
+                          jhiTranslate="global.menu.entities.orgaCareFonction"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="selectedParentButton=='Administration' && hasAnyAuthority([Authority.ADMIN ])"
+            class="trChild">
+            <td class="tdChild">
+                <button
+                    [ngClass]="selectedChildButton=='affectation'?'buttonChildSelected':'buttonChildNotSelected'"
+                    class="btn btn-primary   AffectationIcon"
+                    [routerLink]="['/affectation']"
+                    (click)="selectedChildButton='affectation'">
+                    <span class="spanClild"
+                          jhiTranslate="global.menu.entities.orgaCareAffectation"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+
+
+
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN]"
+            class="trTop">
+            <td class="tdTop " [ngClass]="selectedParentButton=='Gestion Absence'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary GestionAbsenceIcon "
+                        [ngClass]="selectedParentButton=='Gestion Absence'?'buttonSelected':'buttonNotSelected'"
+                        [routerLink]="['']"
+                        (click)="selectedParentButton='Gestion Absence';selectedChildButton='Gestion Absence';">
+                    <span class="spanParent "
+                          jhiTranslate="global.menu.entities.orgaCareAbsence1"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+
+        <hr *ngIf=" selectedParentButton!='Gestion Absence'  && hasAnyAuthority([Authority.ADMIN]) "
+            class="solid separation">
+        <tr *ngIf="selectedParentButton=='Gestion Absence' && hasAnyAuthority([Authority.ADMIN])"
+            class="trChild">
+            <td class="tdChild">
+                <button
+                    [ngClass]="selectedChildButton=='absence'?'buttonChildSelected':'buttonChildNotSelected'"
+                    class="btn btn-primary  absenceIcon"
+                    [routerLink]="['/absence']"
+                    (click)="selectedChildButton='absence'">
+                    <span class="spanClild"
+                          jhiTranslate="global.menu.entities.orgaCareAbsence"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="selectedParentButton=='Gestion Absence' && hasAnyAuthority([Authority.ADMIN ])"
+            class="trChild">
+            <td class="tdChild">
+                <button
+                    [ngClass]="selectedChildButton=='rapportinventaire'?'buttonChildSelected':'buttonChildNotSelected'"
+                    class="btn btn-primary   interimIcon"
+                    [routerLink]="['/tableaubord/rapport/rapport-inventaire']"
+                    (click)="selectedChildButton='rapportinventaire'">
+                    <span class="spanClild"
+                          jhiTranslate="global.menu.entities.orgaCareInterim"
+                    ></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+</div>
