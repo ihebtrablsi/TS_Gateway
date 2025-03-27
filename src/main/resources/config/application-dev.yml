@@ -45,8 +45,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/ProductInventory
-    username: ProductInventory
-    password:
+    username: postgres
+    password: africomSaVpPostGreSQL10DataBase
     hikari:
       poolName: Hikari
       auto-commit: false
