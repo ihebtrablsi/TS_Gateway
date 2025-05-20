@@ -19,13 +19,13 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.financeLettrage.facture">Facture</span></dt>
                 <dd>
                     <div *ngIf="lettrage.factureId">
-                        <a [routerLink]="['/facture', lettrage.factureId, 'view']">{{ lettrage.factureId }}</a>
+                        <a [routerLink]="['/facture', lettrage.factureId, 'view']">{{ factureNumero }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="tsGatewayAngApp.financeLettrage.paiement">Paiement</span></dt>
                 <dd>
                     <div *ngIf="lettrage.paiementId">
-                        <a [routerLink]="['/paiement', lettrage.paiementId, 'view']">{{ lettrage.paiementId }}</a>
+                        <a [routerLink]="['/paiement', lettrage.paiementId, 'view']">{{ paiementReference }}</a>
                     </div>
                 </dd>
             </dl>

@@ -10,13 +10,20 @@ import { IEcartStock } from 'app/shared/model/ProductInventory/ecart-stock.model
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { EcartStockService } from './ecart-stock.service';
 import { EcartStockDeleteDialogComponent } from './ecart-stock-delete-dialog.component';
+import { IProduit } from 'app/shared/model/ProductInventory/produit.model';
+import { IAuditStock } from 'app/shared/model/ProductInventory/audit-stock.model';
+import { AuditStockService } from 'app/entities/ProductInventory/audit-stock/audit-stock.service';
+import { ProduitService } from 'app/entities/ProductInventory/produit/produit.service';
 
 @Component({
   selector: 'jhi-ecart-stock',
   templateUrl: './ecart-stock.component.html',
 })
 export class EcartStockComponent implements OnInit, OnDestroy {
-  ecartStocks?: IEcartStock[];
+  ecartStocks!: IEcartStock[];
+  ecartStock!: IEcartStock;
+  produits!: IProduit[];
+  audits!: IAuditStock[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +31,18 @@ export class EcartStockComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected ecartStockService: EcartStockService,
+    private produitService: ProduitService,
+    private auditStockService: AuditStockService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +67,13 @@ export class EcartStockComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInEcartStocks();
+    this.produitService.query().subscribe(res => {
+      this.produits = res.body ?? [];
+    });
+
+    this.auditStockService.query().subscribe(res => {
+      this.audits = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +106,52 @@ export class EcartStockComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('ecartStockListModification', () => this.loadPage());
   }
 
+  getProduitNameById(produitId: number): string {
+    if (this.produits) {
+      const produit = this.produits.find(r => r.id === produitId);
+      return produit ? produit.nom! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+  getAuditDateById(auditId: number): string {
+    if (this.audits) {
+      const audit = this.audits.find(a => a.id === auditId);
+      return audit && audit.dateAudit ? audit.dateAudit.toDate().toLocaleDateString() : 'Unknown';
+    }
+    return 'Unknown';
+  }
+
+  produitNom = (rowData: any): string => {
+    return this.getProduitNameById(rowData.produitId);
+  };
+
+  auditDate = (rowData: any): string => {
+    return this.getAuditDateById(rowData.auditId);
+  };
+
   delete(ecartStock: IEcartStock): void {
     const modalRef = this.modalService.open(EcartStockDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.ecartStock = ecartStock;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/ecart-stock/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.ecartStock = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.ecartStockService.delete(this.ecartStock.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

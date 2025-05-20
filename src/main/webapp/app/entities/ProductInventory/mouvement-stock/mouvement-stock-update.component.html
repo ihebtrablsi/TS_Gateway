@@ -64,7 +64,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.produit" for="field_produit">Produit</label>
                     <select class="form-control" id="field_produit" name="produit" formControlName="produitId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="produitOption.id" *ngFor="let produitOption of produits; trackBy: trackById">{{ produitOption.id }}</option>
+                        <option [ngValue]="produitOption.id" *ngFor="let produitOption of produits; trackBy: trackById">{{ produitOption.nom }}</option>
                     </select>
                 </div>
 
@@ -72,7 +72,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.depot" for="field_depot">Depot</label>
                     <select class="form-control" id="field_depot" name="depot" formControlName="depotId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="depotOption.id" *ngFor="let depotOption of depots; trackBy: trackById">{{ depotOption.id }}</option>
+                        <option [ngValue]="depotOption.id" *ngFor="let depotOption of depots; trackBy: trackById">{{ depotOption.nom }}</option>
                     </select>
                 </div>
             </div>

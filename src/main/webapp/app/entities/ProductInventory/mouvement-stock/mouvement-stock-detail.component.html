@@ -23,13 +23,13 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.produit">Produit</span></dt>
                 <dd>
                     <div *ngIf="mouvementStock.produitId">
-                        <a [routerLink]="['/produit', mouvementStock.produitId, 'view']">{{ mouvementStock.produitId }}</a>
+                        <a [routerLink]="['/produit', mouvementStock.produitId, 'view']">{{ produitNom }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.depot">Depot</span></dt>
                 <dd>
                     <div *ngIf="mouvementStock.depotId">
-                        <a [routerLink]="['/depot', mouvementStock.depotId, 'view']">{{ mouvementStock.depotId }}</a>
+                        <a [routerLink]="['/depot', mouvementStock.depotId, 'view']">{{ depotNom }}</a>
                     </div>
                 </dd>
             </dl>

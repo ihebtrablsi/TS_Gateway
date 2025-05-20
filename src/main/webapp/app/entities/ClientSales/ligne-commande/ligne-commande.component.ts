@@ -10,13 +10,17 @@ import { ILigneCommande } from 'app/shared/model/ClientSales/ligne-commande.mode
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { LigneCommandeService } from './ligne-commande.service';
 import { LigneCommandeDeleteDialogComponent } from './ligne-commande-delete-dialog.component';
+import { ICommande } from 'app/shared/model/ClientSales/commande.model';
+import { CommandeService } from 'app/entities/ClientSales/commande/commande.service';
 
 @Component({
   selector: 'jhi-ligne-commande',
   templateUrl: './ligne-commande.component.html',
 })
 export class LigneCommandeComponent implements OnInit, OnDestroy {
-  ligneCommandes?: ILigneCommande[];
+  ligneCommandes!: ILigneCommande[];
+  ligneCommande!: ILigneCommande;
+  commandes!: ICommande[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +28,17 @@ export class LigneCommandeComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected ligneCommandeService: LigneCommandeService,
+    protected commandeService: CommandeService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +63,9 @@ export class LigneCommandeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInLigneCommandes();
+    this.commandeService.query().subscribe(res => {
+      this.commandes = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +98,41 @@ export class LigneCommandeComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('ligneCommandeListModification', () => this.loadPage());
   }
 
+  getCommandeTotalById(commandeId: number): number | string {
+    if (this.commandes) {
+      const commande = this.commandes.find(r => r.id === commandeId);
+      return commande ? commande.total! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+
+  commandeTotal = (rowData: any): number | string => {
+    return this.getCommandeTotalById(rowData.commandeId);
+  };
+
   delete(ligneCommande: ILigneCommande): void {
     const modalRef = this.modalService.open(LigneCommandeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.ligneCommande = ligneCommande;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/ligne-commande/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.ligneCommande = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.ligneCommandeService.delete(this.ligneCommande.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

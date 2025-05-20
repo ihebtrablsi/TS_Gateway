@@ -18,7 +18,57 @@
         <span jhiTranslate="tsGatewayAngApp.clientSalesPanierBonus.home.notFound">No panierBonuses found</span>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="panierBonuses && panierBonuses.length > 0">
+    <dx-data-grid
+        style="width: 100%; font-size: 13px; clear: both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="panierBonuses"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher un panier bonus...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="false"
+        [allowColumnResizing]="true"
+        [columnResizingMode]="'nextColumn'"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="totalPoints" [caption]="'tsGatewayAngApp.clientSalesPanierBonus.totalPoints' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="totalValeur" [caption]="'tsGatewayAngApp.clientSalesPanierBonus.totalValeur' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer la panier bonus' : </p>
+                <strong>{{panierBonus.totalPoints}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--<div class="table-responsive" id="entities" *ngIf="panierBonuses && panierBonuses.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
@@ -59,7 +109,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
     <div *ngIf="panierBonuses && panierBonuses.length > 0">
         <div class="row justify-content-center">

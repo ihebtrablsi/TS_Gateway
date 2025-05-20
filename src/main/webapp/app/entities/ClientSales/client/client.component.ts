@@ -16,7 +16,8 @@ import { ClientDeleteDialogComponent } from './client-delete-dialog.component';
   templateUrl: './client.component.html',
 })
 export class ClientComponent implements OnInit, OnDestroy {
-  clients?: IClient[];
+  clients!: IClient[];
+  client!: IClient;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,7 +25,14 @@ export class ClientComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected clientService: ClientService,
     protected activatedRoute: ActivatedRoute,
@@ -87,7 +95,25 @@ export class ClientComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(ClientDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.client = client;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/commande/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.client = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.clientService.delete(this.client.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

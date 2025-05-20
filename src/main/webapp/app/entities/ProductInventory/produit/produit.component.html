@@ -1,24 +1,106 @@
-<div>
-    <h2 id="page-heading">
-        <span jhiTranslate="tsGatewayAngApp.productInventoryProduit.home.title">Produits</span>
-
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-produit" [routerLink]="['/produit/new']">
-            <fa-icon icon="plus"></fa-icon>
-            <span  jhiTranslate="tsGatewayAngApp.productInventoryProduit.home.createLabel">
+<div class="content-container flex-grow-1 p-3">
+<div class="row">
+        <div class="col-12">
+            <h2 id="page-heading" class="mb-3">
+                <span jhiTranslate="tsGatewayAngApp.productInventoryProduit.home.title">Produits</span>
+                <button
+                    id="jh-create-entity"
+                    class="btn btn-primary float-right jh-create-entity create-produit"
+                    [routerLink]="['/produit/new']">
+                    <fa-icon icon="plus"></fa-icon>
+                    <span jhiTranslate="tsGatewayAngApp.productInventoryProduit.home.createLabel">
             Create a new Produit
-            </span>
-        </button>
-    </h2>
+          </span>
+                </button>
+            </h2>
 
-    <jhi-alert-error></jhi-alert-error>
 
+            <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
 
     <div class="alert alert-warning" id="no-result" *ngIf="produits?.length === 0">
         <span jhiTranslate="tsGatewayAngApp.productInventoryProduit.home.notFound">No produits found</span>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="produits && produits.length > 0">
+    <dx-data-grid
+        style="width: 100%; font-size: 13px; clear: both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="produits"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher un produit...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="false"
+        [allowColumnResizing]="true"
+        columnResizingMode="widget"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="nom" [caption]="'tsGatewayAngApp.productInventoryProduit.nom' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="description" [caption]="'tsGatewayAngApp.productInventoryProduit.description' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="prix" [caption]="'tsGatewayAngApp.productInventoryProduit.prix' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="stock" [caption]="'tsGatewayAngApp.productInventoryProduit.stock' | translate" dataType="number" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="categorie" [caption]="'tsGatewayAngApp.productInventoryProduit.categorie' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="imageUrl" [caption]="'tsGatewayAngApp.productInventoryProduit.imageUrl' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="details" [caption]="'tsGatewayAngApp.productInventoryProduit.details' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="famille.nom" [caption]="'tsGatewayAngApp.productInventoryProduit.famille' | translate" dataType="string" alignment="left" [calculateCellValue]="FamilleProduitNom"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer le produit : </p>
+                <strong>{{produit.nom}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+
+    <div *ngIf="produits && produits.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination
+                [collectionSize]="totalItems"
+                [(page)]="ngbPaginationPage"
+                [pageSize]="itemsPerPage"
+                [maxSize]="5"
+                [rotate]="true"
+                [boundaryLinks]="true"
+                (pageChange)="loadPage($event)">
+            </ngb-pagination>
+        </div>
+    </div></div></div>
+</div>
+
+
+
+<!--<div class="table-responsive" id="entities" *ngIf="produits && produits.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
@@ -75,15 +157,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
-    <div *ngIf="produits && produits.length > 0">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
 
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
-        </div>
-    </div>
-</div>

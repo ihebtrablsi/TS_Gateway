@@ -7,9 +7,10 @@ import { MouvementStockDetailComponent } from './mouvement-stock-detail.componen
 import { MouvementStockUpdateComponent } from './mouvement-stock-update.component';
 import { MouvementStockDeleteDialogComponent } from './mouvement-stock-delete-dialog.component';
 import { mouvementStockRoute } from './mouvement-stock.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(mouvementStockRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(mouvementStockRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [
     MouvementStockComponent,
     MouvementStockDetailComponent,

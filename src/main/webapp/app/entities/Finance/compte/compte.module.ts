@@ -7,9 +7,10 @@ import { CompteDetailComponent } from './compte-detail.component';
 import { CompteUpdateComponent } from './compte-update.component';
 import { CompteDeleteDialogComponent } from './compte-delete-dialog.component';
 import { compteRoute } from './compte.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(compteRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(compteRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [CompteComponent, CompteDetailComponent, CompteUpdateComponent, CompteDeleteDialogComponent],
   entryComponents: [CompteDeleteDialogComponent],
 })

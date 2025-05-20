@@ -10,13 +10,20 @@ import { IPaiement } from 'app/shared/model/Finance/paiement.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PaiementService } from './paiement.service';
 import { PaiementDeleteDialogComponent } from './paiement-delete-dialog.component';
+import { FactureService } from 'app/entities/Finance/facture/facture.service';
+import { CompteService } from 'app/entities/Finance/compte/compte.service';
+import { IFacture } from 'app/shared/model/Finance/facture.model';
+import { ICompte } from 'app/shared/model/Finance/compte.model';
 
 @Component({
   selector: 'jhi-paiement',
   templateUrl: './paiement.component.html',
 })
 export class PaiementComponent implements OnInit, OnDestroy {
-  paiements?: IPaiement[];
+  paiements!: IPaiement[];
+  paiement!: IPaiement;
+  factures!: IFacture[];
+  comptes!: ICompte[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +31,18 @@ export class PaiementComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected paiementService: PaiementService,
+    private factureService: FactureService,
+    private compteService: CompteService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +67,14 @@ export class PaiementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInPaiements();
+
+    this.factureService.query().subscribe(res => {
+      this.factures = res.body ?? [];
+    });
+
+    this.compteService.query().subscribe(res => {
+      this.comptes = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +107,42 @@ export class PaiementComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('paiementListModification', () => this.loadPage());
   }
 
+  getFactureNumeroById(factureId: number): string {
+    const facture = this.factures.find(f => f.id === factureId);
+    return facture?.numeroFacture ?? 'Inconnu';
+  }
+
+  getCompteNumeroById(compteId: number): string {
+    const compte = this.comptes.find(c => c.id === compteId);
+    return compte?.numeroCompte ?? 'Inconnu';
+  }
+
+  factureNumero = (rowData: any): string => this.getFactureNumeroById(rowData.factureId);
+  compteNumero = (rowData: any): string => this.getCompteNumeroById(rowData.compteId);
+
   delete(paiement: IPaiement): void {
     const modalRef = this.modalService.open(PaiementDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.paiement = paiement;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/paiement/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.paiement = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.paiementService.delete(this.paiement.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

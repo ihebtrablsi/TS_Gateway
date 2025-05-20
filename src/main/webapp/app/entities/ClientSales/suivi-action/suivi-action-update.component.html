@@ -50,7 +50,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesSuiviAction.actionCommerciale" for="field_actionCommerciale">Action Commerciale</label>
                     <select class="form-control" id="field_actionCommerciale" name="actionCommerciale" formControlName="actionCommercialeId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="actionCommercialeOption.id" *ngFor="let actionCommercialeOption of actioncommerciales; trackBy: trackById">{{ actionCommercialeOption.id }}</option>
+                        <option [ngValue]="actionCommercialeOption.id" *ngFor="let actionCommercialeOption of actioncommerciales; trackBy: trackById">{{ actionCommercialeOption.nom }}</option>
                     </select>
                 </div>
             </div>

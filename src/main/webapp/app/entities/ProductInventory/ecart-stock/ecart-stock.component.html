@@ -11,12 +11,66 @@
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
-
-    <jhi-alert></jhi-alert>
-
     <div class="alert alert-warning" id="no-result" *ngIf="ecartStocks?.length === 0">
         <span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.home.notFound">No ecartStocks found</span>
     </div>
+
+    <jhi-alert></jhi-alert>
+    <dx-data-grid
+        style="clear:both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="ecartStocks"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher un ecart stock...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="true"
+        [allowColumnResizing]="true"
+        [columnResizingMode]="'nextColumn'"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="quantiteTheorique" [caption]="'tsGatewayAngApp.productInventoryEcartStock.quantiteTheorique' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="quantitePhysique" [caption]="'tsGatewayAngApp.productInventoryEcartStock.quantitePhysique' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="ecart" [caption]="'tsGatewayAngApp.productInventoryEcartStock.ecart' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="commentaire" [caption]="'tsGatewayAngApp.productInventoryEcartStock.commentaire' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="produit" [caption]="'tsGatewayAngApp.productInventoryEcartStock.produit' | translate" dataType="string" alignment="left" [calculateCellValue]="produitNom"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="audit" [caption]="'tsGatewayAngApp.productInventoryEcartStock.audit' | translate" dataType="string" alignment="left" [calculateCellValue]="auditDate"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer l'ecart stock' : </p>
+                <strong>{{ecartStock.ecart}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--
 
     <div class="table-responsive" id="entities" *ngIf="ecartStocks && ecartStocks.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
@@ -75,7 +129,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
     <div *ngIf="ecartStocks && ecartStocks.length > 0">
         <div class="row justify-content-center">

@@ -88,7 +88,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.financePaiement.facture" for="field_facture">Facture</label>
                     <select class="form-control" id="field_facture" name="facture" formControlName="factureId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="factureOption.id" *ngFor="let factureOption of factures; trackBy: trackById">{{ factureOption.id }}</option>
+                        <option [ngValue]="factureOption.id" *ngFor="let factureOption of factures; trackBy: trackById">{{ factureOption.numeroFacture }}</option>
                     </select>
                 </div>
 
@@ -96,7 +96,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.financePaiement.compte" for="field_compte">Compte</label>
                     <select class="form-control" id="field_compte" name="compte" formControlName="compteId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="compteOption.id" *ngFor="let compteOption of comptes; trackBy: trackById">{{ compteOption.id }}</option>
+                        <option [ngValue]="compteOption.id" *ngFor="let compteOption of comptes; trackBy: trackById">{{ compteOption.numeroCompte }}</option>
                     </select>
                 </div>
             </div>

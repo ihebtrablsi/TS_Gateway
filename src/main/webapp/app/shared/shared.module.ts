@@ -5,6 +5,7 @@ import { AlertComponent } from './alert/alert.component';
 import { AlertErrorComponent } from './alert/alert-error.component';
 import { LoginModalComponent } from './login/login.component';
 import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [TsGatewayAngSharedLibsModule],
@@ -16,6 +17,7 @@ import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
     AlertComponent,
     AlertErrorComponent,
     LoginModalComponent,
+    FormsModule,
     HasAnyAuthorityDirective,
   ],
 })

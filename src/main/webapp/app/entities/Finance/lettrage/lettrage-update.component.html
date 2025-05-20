@@ -52,7 +52,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.financeLettrage.facture" for="field_facture">Facture</label>
                     <select class="form-control" id="field_facture" name="facture" formControlName="factureId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="factureOption.id" *ngFor="let factureOption of factures; trackBy: trackById">{{ factureOption.id }}</option>
+                        <option [ngValue]="factureOption.id" *ngFor="let factureOption of factures; trackBy: trackById">{{ factureOption.numeroFacture }}</option>
                     </select>
                 </div>
 
@@ -60,7 +60,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.financeLettrage.paiement" for="field_paiement">Paiement</label>
                     <select class="form-control" id="field_paiement" name="paiement" formControlName="paiementId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="paiementOption.id" *ngFor="let paiementOption of paiements; trackBy: trackById">{{ paiementOption.id }}</option>
+                        <option [ngValue]="paiementOption.id" *ngFor="let paiementOption of paiements; trackBy: trackById">{{ paiementOption.reference }}</option>
                     </select>
                 </div>
             </div>

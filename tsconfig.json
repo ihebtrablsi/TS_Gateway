@@ -1,5 +1,5 @@
 {
-  "files": [],
+  "files": ["src/@types/global.d.ts", "src/main/webapp/app/app.main.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"

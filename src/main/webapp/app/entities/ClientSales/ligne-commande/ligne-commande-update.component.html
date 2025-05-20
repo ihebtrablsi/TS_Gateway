@@ -47,7 +47,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesLigneCommande.commande" for="field_commande">Commande</label>
                     <select class="form-control" id="field_commande" name="commande" formControlName="commandeId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="commandeOption.id" *ngFor="let commandeOption of commandes; trackBy: trackById">{{ commandeOption.id }}</option>
+                        <option [ngValue]="commandeOption.id" *ngFor="let commandeOption of commandes; trackBy: trackById">{{ commandeOption.total }}</option>
                     </select>
                 </div>
             </div>

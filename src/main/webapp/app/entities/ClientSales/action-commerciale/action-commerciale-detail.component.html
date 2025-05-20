@@ -35,7 +35,7 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.pointDeVente">Point De Vente</span></dt>
                 <dd>
                     <div *ngIf="actionCommerciale.pointDeVenteId">
-                        <a [routerLink]="['/point-de-vente', actionCommerciale.pointDeVenteId, 'view']">{{ actionCommerciale.pointDeVenteId }}</a>
+                        <a [routerLink]="['/point-de-vente', actionCommerciale.pointDeVenteId, 'view']">{{ pointDeVenteNom }}</a>
                     </div>
                 </dd>
             </dl>

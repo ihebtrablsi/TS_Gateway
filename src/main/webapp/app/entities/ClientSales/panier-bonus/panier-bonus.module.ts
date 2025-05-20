@@ -7,9 +7,10 @@ import { PanierBonusDetailComponent } from './panier-bonus-detail.component';
 import { PanierBonusUpdateComponent } from './panier-bonus-update.component';
 import { PanierBonusDeleteDialogComponent } from './panier-bonus-delete-dialog.component';
 import { panierBonusRoute } from './panier-bonus.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(panierBonusRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(panierBonusRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [PanierBonusComponent, PanierBonusDetailComponent, PanierBonusUpdateComponent, PanierBonusDeleteDialogComponent],
   entryComponents: [PanierBonusDeleteDialogComponent],
 })

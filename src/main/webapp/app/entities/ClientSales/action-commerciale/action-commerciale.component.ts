@@ -10,13 +10,18 @@ import { IActionCommerciale } from 'app/shared/model/ClientSales/action-commerci
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { ActionCommercialeService } from './action-commerciale.service';
 import { ActionCommercialeDeleteDialogComponent } from './action-commerciale-delete-dialog.component';
+import { IPointDeVente } from 'app/shared/model/ClientSales/point-de-vente.model';
+import { PointDeVenteService } from 'app/entities/ClientSales/point-de-vente/point-de-vente.service';
 
 @Component({
   selector: 'jhi-action-commerciale',
   templateUrl: './action-commerciale.component.html',
+  styleUrls: ['./action.commerciale.component.scss'],
 })
 export class ActionCommercialeComponent implements OnInit, OnDestroy {
-  actionCommerciales?: IActionCommerciale[];
+  actionCommerciales!: IActionCommerciale[];
+  actionCommerciale!: IActionCommerciale;
+  pointsDeVentes!: IPointDeVente[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +29,18 @@ export class ActionCommercialeComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
+
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
 
   constructor(
     protected actionCommercialeService: ActionCommercialeService,
+    private pointDeVenteService: PointDeVenteService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +65,9 @@ export class ActionCommercialeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInActionCommerciales();
+    this.pointDeVenteService.query().subscribe(res => {
+      this.pointsDeVentes = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +100,40 @@ export class ActionCommercialeComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('actionCommercialeListModification', () => this.loadPage());
   }
 
+  getPointDeVenteNameById(pointDeVenteId: number): string {
+    if (this.pointsDeVentes) {
+      const pointsDeVente = this.pointsDeVentes.find(r => r.id === pointDeVenteId);
+      return pointsDeVente ? pointsDeVente.nom! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+
+  pointDeVenteNom = (rowData: any): string => {
+    return this.getPointDeVenteNameById(rowData.pointDeVenteId);
+  };
   delete(actionCommerciale: IActionCommerciale): void {
     const modalRef = this.modalService.open(ActionCommercialeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.actionCommerciale = actionCommerciale;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/action-commerciale/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.actionCommerciale = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.actionCommercialeService.delete(this.actionCommerciale.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

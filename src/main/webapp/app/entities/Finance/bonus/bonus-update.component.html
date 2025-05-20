@@ -64,7 +64,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.financeBonus.incentive" for="field_incentive">Incentive</label>
                     <select class="form-control" id="field_incentive" name="incentive" formControlName="incentiveId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="incentiveOption.id" *ngFor="let incentiveOption of incentives; trackBy: trackById">{{ incentiveOption.id }}</option>
+                        <option [ngValue]="incentiveOption.id" *ngFor="let incentiveOption of incentives; trackBy: trackById">{{ incentiveOption.nom }}</option>
                     </select>
                 </div>
             </div>

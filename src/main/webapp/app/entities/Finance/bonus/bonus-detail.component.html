@@ -23,7 +23,7 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.financeBonus.incentive">Incentive</span></dt>
                 <dd>
                     <div *ngIf="bonus.incentiveId">
-                        <a [routerLink]="['/incentive', bonus.incentiveId, 'view']">{{ bonus.incentiveId }}</a>
+                        <a [routerLink]="['/incentive', bonus.incentiveId, 'view']">{{ incentiveNom }}</a>
                     </div>
                 </dd>
             </dl>

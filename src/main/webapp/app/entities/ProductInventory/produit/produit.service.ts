@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IProduit } from 'app/shared/model/ProductInventory/produit.model';
+import { catchError } from 'rxjs/operators';
 
 type EntityResponseType = HttpResponse<IProduit>;
 type EntityArrayResponseType = HttpResponse<IProduit[]>;
@@ -27,9 +28,16 @@ export class ProduitService {
     return this.http.get<IProduit>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  query(req?: any): Observable<HttpResponse<IProduit[]>> {
     const options = createRequestOption(req);
-    return this.http.get<IProduit[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http
+      .get<IProduit[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching produits:', error);
+          return throwError(error);
+        })
+      );
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {

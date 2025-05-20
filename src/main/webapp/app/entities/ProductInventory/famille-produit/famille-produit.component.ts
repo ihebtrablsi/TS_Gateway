@@ -10,13 +10,15 @@ import { IFamilleProduit } from 'app/shared/model/ProductInventory/famille-produ
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { FamilleProduitService } from './famille-produit.service';
 import { FamilleProduitDeleteDialogComponent } from './famille-produit-delete-dialog.component';
+import { Authority } from 'app/shared/constants/authority.constants';
 
 @Component({
   selector: 'jhi-famille-produit',
   templateUrl: './famille-produit.component.html',
 })
 export class FamilleProduitComponent implements OnInit, OnDestroy {
-  familleProduits?: IFamilleProduit[];
+  familleProduits!: IFamilleProduit[];
+  familleProduit!: IFamilleProduit;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,6 +26,15 @@ export class FamilleProduitComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
+  Authority = Authority;
+
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
 
   constructor(
     protected familleProduitService: FamilleProduitService,
@@ -86,6 +97,25 @@ export class FamilleProduitComponent implements OnInit, OnDestroy {
   delete(familleProduit: IFamilleProduit): void {
     const modalRef = this.modalService.open(FamilleProduitDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.familleProduit = familleProduit;
+  }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/famille-produit/${e.data.id}/view`]);
+  }
+
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.familleProduit = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.familleProduitService.delete(this.familleProduit.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
   }
 
   sort(): string[] {

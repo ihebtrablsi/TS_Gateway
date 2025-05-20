@@ -91,7 +91,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryProduit.famille" for="field_famille">Famille</label>
                     <select class="form-control" id="field_famille" name="famille" formControlName="familleId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="familleProduitOption.id" *ngFor="let familleProduitOption of familleproduits; trackBy: trackById">{{ familleProduitOption.id }}</option>
+                        <option [ngValue]="familleProduitOption.id" *ngFor="let familleProduitOption of familleproduits; trackBy: trackById">{{ familleProduitOption.nom }}</option>
                     </select>
                 </div>
             </div>

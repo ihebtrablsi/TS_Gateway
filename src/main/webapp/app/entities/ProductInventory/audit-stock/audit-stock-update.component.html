@@ -50,7 +50,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.depot" for="field_depot">Depot</label>
                     <select class="form-control" id="field_depot" name="depot" formControlName="depotId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="depotOption.id" *ngFor="let depotOption of depots; trackBy: trackById">{{ depotOption.id }}</option>
+                        <option [ngValue]="depotOption.id" *ngFor="let depotOption of depots; trackBy: trackById">{{ depotOption.nom }}</option>
                     </select>
                 </div>
             </div>

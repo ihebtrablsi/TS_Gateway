@@ -7,9 +7,10 @@ import { SuiviActionDetailComponent } from './suivi-action-detail.component';
 import { SuiviActionUpdateComponent } from './suivi-action-update.component';
 import { SuiviActionDeleteDialogComponent } from './suivi-action-delete-dialog.component';
 import { suiviActionRoute } from './suivi-action.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(suiviActionRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(suiviActionRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [SuiviActionComponent, SuiviActionDetailComponent, SuiviActionUpdateComponent, SuiviActionDeleteDialogComponent],
   entryComponents: [SuiviActionDeleteDialogComponent],
 })

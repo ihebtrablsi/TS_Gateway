@@ -19,7 +19,7 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.clientSalesLigneCommande.commande">Commande</span></dt>
                 <dd>
                     <div *ngIf="ligneCommande.commandeId">
-                        <a [routerLink]="['/commande', ligneCommande.commandeId, 'view']">{{ ligneCommande.commandeId }}</a>
+                        <a [routerLink]="['/commande', ligneCommande.commandeId, 'view']">{{ commandeTotal }}</a>
                     </div>
                 </dd>
             </dl>

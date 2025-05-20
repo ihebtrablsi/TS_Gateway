@@ -10,13 +10,17 @@ import { IBonus } from 'app/shared/model/Finance/bonus.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { BonusService } from './bonus.service';
 import { BonusDeleteDialogComponent } from './bonus-delete-dialog.component';
+import { IIncentive } from 'app/shared/model/Finance/incentive.model';
+import { IncentiveService } from 'app/entities/Finance/incentive/incentive.service';
 
 @Component({
   selector: 'jhi-bonus',
   templateUrl: './bonus.component.html',
 })
 export class BonusComponent implements OnInit, OnDestroy {
-  bonuses?: IBonus[];
+  bonuses!: IBonus[];
+  bonus!: IBonus;
+  incentives!: IIncentive[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +28,17 @@ export class BonusComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected bonusService: BonusService,
+    private incentiveService: IncentiveService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +63,9 @@ export class BonusComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInBonuses();
+    this.incentiveService.query().subscribe(res => {
+      this.incentives = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +98,38 @@ export class BonusComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('bonusListModification', () => this.loadPage());
   }
 
+  getIncentiveNameById(incentiveId: number): string {
+    const incentive = this.incentives.find(i => i.id === incentiveId);
+    return incentive ? incentive.nom! : 'Inconnu';
+  }
+
+  incentiveNom = (rowData: any): string => {
+    return this.getIncentiveNameById(rowData.incentiveId);
+  };
+
   delete(bonus: IBonus): void {
     const modalRef = this.modalService.open(BonusDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.bonus = bonus;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/bonus/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.bonus = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.bonusService.delete(this.bonus.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

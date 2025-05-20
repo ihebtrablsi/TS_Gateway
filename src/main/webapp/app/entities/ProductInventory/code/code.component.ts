@@ -10,13 +10,17 @@ import { ICode } from 'app/shared/model/ProductInventory/code.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { CodeService } from './code.service';
 import { CodeDeleteDialogComponent } from './code-delete-dialog.component';
+import { IProduit } from 'app/shared/model/ProductInventory/produit.model';
+import { ProduitService } from 'app/entities/ProductInventory/produit/produit.service';
 
 @Component({
   selector: 'jhi-code',
   templateUrl: './code.component.html',
 })
 export class CodeComponent implements OnInit, OnDestroy {
-  codes?: ICode[];
+  codes: ICode[] = [];
+  code!: ICode;
+  produits!: IProduit[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +28,17 @@ export class CodeComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected codeService: CodeService,
+    private produitService: ProduitService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +63,9 @@ export class CodeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInCodes();
+    this.produitService.query().subscribe(res => {
+      this.produits = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +98,40 @@ export class CodeComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('codeListModification', () => this.loadPage());
   }
 
+  getProduitNameById(produitId: number): string {
+    if (this.produits) {
+      const produit = this.produits.find(r => r.id === produitId);
+      return produit ? produit.nom! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+
+  ProduitNom = (rowData: any): string => {
+    return this.getProduitNameById(rowData.produitId);
+  };
   delete(code: ICode): void {
     const modalRef = this.modalService.open(CodeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.code = code;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/code/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.code = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.codeService.delete(this.code.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

@@ -7,9 +7,10 @@ import { ActionCommercialeDetailComponent } from './action-commerciale-detail.co
 import { ActionCommercialeUpdateComponent } from './action-commerciale-update.component';
 import { ActionCommercialeDeleteDialogComponent } from './action-commerciale-delete-dialog.component';
 import { actionCommercialeRoute } from './action-commerciale.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(actionCommercialeRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(actionCommercialeRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [
     ActionCommercialeComponent,
     ActionCommercialeDetailComponent,

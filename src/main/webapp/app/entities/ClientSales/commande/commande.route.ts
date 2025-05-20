@@ -39,7 +39,7 @@ export const commandeRoute: Routes = [
     path: '',
     component: CommandeComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       defaultSort: 'id,asc',
       pageTitle: 'tsGatewayAngApp.clientSalesCommande.home.title',
     },
@@ -52,7 +52,7 @@ export const commandeRoute: Routes = [
       commande: CommandeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'tsGatewayAngApp.clientSalesCommande.home.title',
     },
     canActivate: [UserRouteAccessService],
@@ -64,7 +64,7 @@ export const commandeRoute: Routes = [
       commande: CommandeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'tsGatewayAngApp.clientSalesCommande.home.title',
     },
     canActivate: [UserRouteAccessService],
@@ -76,7 +76,7 @@ export const commandeRoute: Routes = [
       commande: CommandeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'tsGatewayAngApp.clientSalesCommande.home.title',
     },
     canActivate: [UserRouteAccessService],

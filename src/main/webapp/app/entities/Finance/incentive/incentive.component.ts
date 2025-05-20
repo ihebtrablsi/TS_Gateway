@@ -16,7 +16,8 @@ import { IncentiveDeleteDialogComponent } from './incentive-delete-dialog.compon
   templateUrl: './incentive.component.html',
 })
 export class IncentiveComponent implements OnInit, OnDestroy {
-  incentives?: IIncentive[];
+  incentives!: IIncentive[];
+  incentive!: IIncentive;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,7 +25,14 @@ export class IncentiveComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected incentiveService: IncentiveService,
     protected activatedRoute: ActivatedRoute,
@@ -87,7 +95,25 @@ export class IncentiveComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(IncentiveDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.incentive = incentive;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/incentive/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.incentive = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.incentiveService.delete(this.incentive.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

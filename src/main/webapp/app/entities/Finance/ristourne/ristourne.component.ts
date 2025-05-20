@@ -16,7 +16,8 @@ import { RistourneDeleteDialogComponent } from './ristourne-delete-dialog.compon
   templateUrl: './ristourne.component.html',
 })
 export class RistourneComponent implements OnInit, OnDestroy {
-  ristournes?: IRistourne[];
+  ristournes!: IRistourne[];
+  ristourne!: IRistourne;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,7 +25,14 @@ export class RistourneComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected ristourneService: RistourneService,
     protected activatedRoute: ActivatedRoute,
@@ -87,7 +95,25 @@ export class RistourneComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(RistourneDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.ristourne = ristourne;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/ristourne/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.ristourne = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.ristourneService.delete(this.ristourne.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

@@ -23,7 +23,7 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.depot">Depot</span></dt>
                 <dd>
                     <div *ngIf="auditStock.depotId">
-                        <a [routerLink]="['/depot', auditStock.depotId, 'view']">{{ auditStock.depotId }}</a>
+                        <a [routerLink]="['/depot', auditStock.depotId, 'view']">{{ depotNom }}</a>
                     </div>
                 </dd>
             </dl>

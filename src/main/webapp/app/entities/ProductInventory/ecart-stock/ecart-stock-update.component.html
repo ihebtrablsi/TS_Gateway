@@ -65,21 +65,28 @@
                            formControlName="commentaire"/>
                 </div>
 
+                <!-- Produit -->
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.produit" for="field_produit">Produit</label>
                     <select class="form-control" id="field_produit" name="produit" formControlName="produitId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="produitOption.id" *ngFor="let produitOption of produits; trackBy: trackById">{{ produitOption.id }}</option>
+                        <option *ngFor="let produitOption of produits; trackBy: trackById" [ngValue]="produitOption.id">
+                            {{ produitOption.nom }}
+                        </option>
                     </select>
                 </div>
 
+                <!-- Audit -->
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.audit" for="field_audit">Audit</label>
                     <select class="form-control" id="field_audit" name="audit" formControlName="auditId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="auditStockOption.id" *ngFor="let auditStockOption of auditstocks; trackBy: trackById">{{ auditStockOption.id }}</option>
+                        <option *ngFor="let auditStockOption of auditstocks; trackBy: trackById" [ngValue]="auditStockOption.id">
+                            {{ auditStockOption.dateAudit?.toDate() | date: 'shortDate' }}
+                        </option>
                     </select>
                 </div>
+
             </div>
 
             <div>

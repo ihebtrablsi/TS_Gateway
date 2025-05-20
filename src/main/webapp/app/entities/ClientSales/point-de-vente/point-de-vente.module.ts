@@ -7,9 +7,10 @@ import { PointDeVenteDetailComponent } from './point-de-vente-detail.component';
 import { PointDeVenteUpdateComponent } from './point-de-vente-update.component';
 import { PointDeVenteDeleteDialogComponent } from './point-de-vente-delete-dialog.component';
 import { pointDeVenteRoute } from './point-de-vente.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(pointDeVenteRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(pointDeVenteRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [PointDeVenteComponent, PointDeVenteDetailComponent, PointDeVenteUpdateComponent, PointDeVenteDeleteDialogComponent],
   entryComponents: [PointDeVenteDeleteDialogComponent],
 })

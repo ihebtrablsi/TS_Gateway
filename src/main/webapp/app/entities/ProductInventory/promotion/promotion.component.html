@@ -17,8 +17,60 @@
     <div class="alert alert-warning" id="no-result" *ngIf="promotions?.length === 0">
         <span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.home.notFound">No promotions found</span>
     </div>
+    <dx-data-grid
+        style="clear:both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="promotions"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher une promotion...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="true"
+        [allowColumnResizing]="true"
+        [columnResizingMode]="'nextColumn'"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="nom" [caption]="'tsGatewayAngApp.productInventoryPromotion.nom' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="dateDebut" [caption]="'tsGatewayAngApp.productInventoryPromotion.dateDebut' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="dateFin" [caption]="'tsGatewayAngApp.productInventoryPromotion.dateFin' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="remise" [caption]="'tsGatewayAngApp.productInventoryPromotion.remise' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="produit" [caption]="'tsGatewayAngApp.productInventoryPromotion.produit' | translate" dataType="string" alignment="left" [calculateCellValue]="ProduitNom"><fa-icon icon="sort"></fa-icon></dxi-column>
 
-    <div class="table-responsive" id="entities" *ngIf="promotions && promotions.length > 0">
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer la promotion : </p>
+                <strong>{{promotion.nom}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--<div class="table-responsive" id="entities" *ngIf="promotions && promotions.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
@@ -69,7 +121,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
     <div *ngIf="promotions && promotions.length > 0">
         <div class="row justify-content-center">

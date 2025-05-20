@@ -16,7 +16,8 @@ import { PanierBonusDeleteDialogComponent } from './panier-bonus-delete-dialog.c
   templateUrl: './panier-bonus.component.html',
 })
 export class PanierBonusComponent implements OnInit, OnDestroy {
-  panierBonuses?: IPanierBonus[];
+  panierBonuses!: IPanierBonus[];
+  panierBonus!: IPanierBonus;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,7 +25,14 @@ export class PanierBonusComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected panierBonusService: PanierBonusService,
     protected activatedRoute: ActivatedRoute,
@@ -87,7 +95,25 @@ export class PanierBonusComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(PanierBonusDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.panierBonus = panierBonus;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/panier-bonus/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.panierBonus = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.panierBonusService.delete(this.panierBonus.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

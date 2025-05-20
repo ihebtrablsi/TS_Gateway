@@ -23,7 +23,7 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.clientSalesSuiviAction.actionCommerciale">Action Commerciale</span></dt>
                 <dd>
                     <div *ngIf="suiviAction.actionCommercialeId">
-                        <a [routerLink]="['/action-commerciale', suiviAction.actionCommercialeId, 'view']">{{ suiviAction.actionCommercialeId }}</a>
+                        <a [routerLink]="['/action-commerciale', suiviAction.actionCommercialeId, 'view']">{{ ActionCommercialeNom }}</a>
                     </div>
                 </dd>
             </dl>

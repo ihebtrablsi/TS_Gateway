@@ -91,7 +91,7 @@
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.pointDeVente" for="field_pointDeVente">Point De Vente</label>
                     <select class="form-control" id="field_pointDeVente" name="pointDeVente" formControlName="pointDeVenteId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="pointDeVenteOption.id" *ngFor="let pointDeVenteOption of pointdeventes; trackBy: trackById">{{ pointDeVenteOption.id }}</option>
+                        <option [ngValue]="pointDeVenteOption.id" *ngFor="let pointDeVenteOption of pointdeventes; trackBy: trackById">{{ pointDeVenteOption.nom }}</option>
                     </select>
                 </div>
             </div>

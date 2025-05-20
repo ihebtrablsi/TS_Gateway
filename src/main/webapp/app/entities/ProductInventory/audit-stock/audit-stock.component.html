@@ -17,8 +17,59 @@
     <div class="alert alert-warning" id="no-result" *ngIf="auditStocks?.length === 0">
         <span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.home.notFound">No auditStocks found</span>
     </div>
+    <dx-data-grid
+        style="clear:both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="auditStocks"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="searchPanel"
+        [showBorders]="true"
+        [columnResizingMode]="'nextColumn'"
+        [columnAutoWidth]="true"
+        [allowColumnResizing]="true"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)">
+    >
+        <dxi-column dataField="dateAudit" [caption]="'tsGatewayAngApp.productInventoryAuditStock.dateAudit' | translate" dataType="string" alignment="center"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="statut" [caption]="'tsGatewayAngApp.productInventoryAuditStock.statut' | translate" dataType="string" alignment="center"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="commentaire" [caption]="'tsGatewayAngApp.productInventoryAuditStock.commentaire' | translate" dataType="string" alignment="center"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="depot" [caption]="'tsGatewayAngApp.productInventoryAuditStock.depot' | translate" dataType="number" alignment="center" [calculateCellValue]="depotNom"><fa-icon icon="sort"></fa-icon></dxi-column>
 
-    <div class="table-responsive" id="entities" *ngIf="auditStocks && auditStocks.length > 0">
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer l'audit stock : </p>
+                <strong>{{auditStock.commentaire}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--<div class="table-responsive" id="entities" *ngIf="auditStocks && auditStocks.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
@@ -67,7 +118,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
     <div *ngIf="auditStocks && auditStocks.length > 0">
         <div class="row justify-content-center">

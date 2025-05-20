@@ -27,7 +27,7 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.productInventoryPromotion.produit">Produit</span></dt>
                 <dd>
                     <div *ngIf="promotion.produitId">
-                        <a [routerLink]="['/produit', promotion.produitId, 'view']">{{ promotion.produitId }}</a>
+                        <a [routerLink]="['/produit', promotion.produitId, 'view']">{{ ProduitNom }}</a>
                     </div>
                 </dd>
             </dl>

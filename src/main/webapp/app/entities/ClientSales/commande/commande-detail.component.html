@@ -23,13 +23,13 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.client">Client</span></dt>
                 <dd>
                     <div *ngIf="commande.clientId">
-                        <a [routerLink]="['/client', commande.clientId, 'view']">{{ commande.clientId }}</a>
+                        <a [routerLink]="['/client', commande.clientId, 'view']">{{ clientNom }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.pointDeVente">Point De Vente</span></dt>
                 <dd>
                     <div *ngIf="commande.pointDeVenteId">
-                        <a [routerLink]="['/point-de-vente', commande.pointDeVenteId, 'view']">{{ commande.pointDeVenteId }}</a>
+                        <a [routerLink]="['/point-de-vente', commande.pointDeVenteId, 'view']">{{ pointDeVenteNom }}</a>
                     </div>
                 </dd>
             </dl>

@@ -18,6 +18,13 @@
       "total": "Total",
       "client": "Client",
       "pointDeVente": "Point De Vente"
+    },
+    "Statut": {
+      "EN_ATTENTE": "قيد الانتظار",
+      "VALIDEE": "تم التحقق منه",
+      "REFUSEE": "مرفوض",
+      "ANNULEE": "تم الإلغاء",
+      "LIVREE": "تم التوصيل"
     }
   },
   "clientSalesApp": {

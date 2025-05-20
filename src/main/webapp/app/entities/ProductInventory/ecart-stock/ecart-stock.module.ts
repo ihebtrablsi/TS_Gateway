@@ -7,9 +7,10 @@ import { EcartStockDetailComponent } from './ecart-stock-detail.component';
 import { EcartStockUpdateComponent } from './ecart-stock-update.component';
 import { EcartStockDeleteDialogComponent } from './ecart-stock-delete-dialog.component';
 import { ecartStockRoute } from './ecart-stock.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(ecartStockRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(ecartStockRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [EcartStockComponent, EcartStockDetailComponent, EcartStockUpdateComponent, EcartStockDeleteDialogComponent],
   entryComponents: [EcartStockDeleteDialogComponent],
 })

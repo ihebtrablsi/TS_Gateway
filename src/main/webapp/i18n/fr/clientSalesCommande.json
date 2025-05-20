@@ -18,6 +18,13 @@
       "total": "Total",
       "client": "Client",
       "pointDeVente": "Point De Vente"
+    },
+    "Statut": {
+      "EN_ATTENTE": "en attente",
+      "VALIDEE": "validée",
+      "REFUSEE": "refusée",
+      "ANNULEE": "annulée",
+      "LIVREE": "livrée"
     }
   },
   "clientSalesApp": {

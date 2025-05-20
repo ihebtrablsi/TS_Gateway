@@ -16,7 +16,8 @@ import { PointDeVenteDeleteDialogComponent } from './point-de-vente-delete-dialo
   templateUrl: './point-de-vente.component.html',
 })
 export class PointDeVenteComponent implements OnInit, OnDestroy {
-  pointDeVentes?: IPointDeVente[];
+  pointDeVentes!: IPointDeVente[];
+  pointDeVente!: IPointDeVente;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,7 +25,14 @@ export class PointDeVenteComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected pointDeVenteService: PointDeVenteService,
     protected activatedRoute: ActivatedRoute,
@@ -87,7 +95,25 @@ export class PointDeVenteComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(PointDeVenteDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.pointDeVente = pointDeVente;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/point-de-vente/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.pointDeVente = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.pointDeVenteService.delete(this.pointDeVente.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

@@ -7,9 +7,10 @@ import { FactureDetailComponent } from './facture-detail.component';
 import { FactureUpdateComponent } from './facture-update.component';
 import { FactureDeleteDialogComponent } from './facture-delete-dialog.component';
 import { factureRoute } from './facture.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(factureRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(factureRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [FactureComponent, FactureDetailComponent, FactureUpdateComponent, FactureDeleteDialogComponent],
   entryComponents: [FactureDeleteDialogComponent],
 })

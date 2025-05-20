@@ -27,13 +27,13 @@
                 <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.produit">Produit</span></dt>
                 <dd>
                     <div *ngIf="ecartStock.produitId">
-                        <a [routerLink]="['/produit', ecartStock.produitId, 'view']">{{ ecartStock.produitId }}</a>
+                        <a [routerLink]="['/produit', ecartStock.produitId, 'view']">{{ produitNom }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.audit">Audit</span></dt>
                 <dd>
                     <div *ngIf="ecartStock.auditId">
-                        <a [routerLink]="['/audit-stock', ecartStock.auditId, 'view']">{{ ecartStock.auditId }}</a>
+                        <a [routerLink]="['/audit-stock', ecartStock.auditId, 'view']">{{ auditDate }}</a>
                     </div>
                 </dd>
             </dl>

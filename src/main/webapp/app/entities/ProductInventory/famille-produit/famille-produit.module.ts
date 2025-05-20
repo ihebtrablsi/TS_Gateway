@@ -7,9 +7,10 @@ import { FamilleProduitDetailComponent } from './famille-produit-detail.componen
 import { FamilleProduitUpdateComponent } from './famille-produit-update.component';
 import { FamilleProduitDeleteDialogComponent } from './famille-produit-delete-dialog.component';
 import { familleProduitRoute } from './famille-produit.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(familleProduitRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(familleProduitRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [
     FamilleProduitComponent,
     FamilleProduitDetailComponent,

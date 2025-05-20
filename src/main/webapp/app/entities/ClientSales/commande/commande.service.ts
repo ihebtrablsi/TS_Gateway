@@ -24,6 +24,24 @@ export class CommandeService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  valider(id: number): Observable<EntityResponseType> {
+    return this.http
+      .put<ICommande>(`${this.resourceUrl}/${id}/valider`, {}, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  refuser(id: number): Observable<EntityResponseType> {
+    return this.http
+      .put<ICommande>(`${this.resourceUrl}/${id}/refuser`, {}, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  annuler(id: number): Observable<EntityResponseType> {
+    return this.http
+      .put<ICommande>(`${this.resourceUrl}/${id}/annuler`, {}, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
   update(commande: ICommande): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(commande);
     return this.http

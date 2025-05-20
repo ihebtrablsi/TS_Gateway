@@ -16,7 +16,8 @@ import { DepotDeleteDialogComponent } from './depot-delete-dialog.component';
   templateUrl: './depot.component.html',
 })
 export class DepotComponent implements OnInit, OnDestroy {
-  depots?: IDepot[];
+  depots!: IDepot[];
+  depot!: IDepot;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,7 +25,14 @@ export class DepotComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected depotService: DepotService,
     protected activatedRoute: ActivatedRoute,
@@ -87,7 +95,25 @@ export class DepotComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(DepotDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.depot = depot;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/depot/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.depot = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.depotService.delete(this.depot.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

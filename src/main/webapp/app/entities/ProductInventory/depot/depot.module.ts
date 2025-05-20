@@ -7,9 +7,10 @@ import { DepotDetailComponent } from './depot-detail.component';
 import { DepotUpdateComponent } from './depot-update.component';
 import { DepotDeleteDialogComponent } from './depot-delete-dialog.component';
 import { depotRoute } from './depot.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(depotRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(depotRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [DepotComponent, DepotDetailComponent, DepotUpdateComponent, DepotDeleteDialogComponent],
   entryComponents: [DepotDeleteDialogComponent],
 })

@@ -7,9 +7,10 @@ import { IncentiveDetailComponent } from './incentive-detail.component';
 import { IncentiveUpdateComponent } from './incentive-update.component';
 import { IncentiveDeleteDialogComponent } from './incentive-delete-dialog.component';
 import { incentiveRoute } from './incentive.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(incentiveRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(incentiveRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [IncentiveComponent, IncentiveDetailComponent, IncentiveUpdateComponent, IncentiveDeleteDialogComponent],
   entryComponents: [IncentiveDeleteDialogComponent],
 })

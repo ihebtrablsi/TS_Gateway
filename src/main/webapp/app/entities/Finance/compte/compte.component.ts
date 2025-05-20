@@ -16,7 +16,8 @@ import { CompteDeleteDialogComponent } from './compte-delete-dialog.component';
   templateUrl: './compte.component.html',
 })
 export class CompteComponent implements OnInit, OnDestroy {
-  comptes?: ICompte[];
+  comptes!: ICompte[];
+  compte!: ICompte;
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,7 +25,14 @@ export class CompteComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected compteService: CompteService,
     protected activatedRoute: ActivatedRoute,
@@ -87,7 +95,25 @@ export class CompteComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(CompteDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.compte = compte;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/compte/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.compte = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.compteService.delete(this.compte.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

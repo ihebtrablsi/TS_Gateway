@@ -10,13 +10,20 @@ import { IMouvementStock } from 'app/shared/model/ProductInventory/mouvement-sto
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { MouvementStockService } from './mouvement-stock.service';
 import { MouvementStockDeleteDialogComponent } from './mouvement-stock-delete-dialog.component';
+import { IDepot } from 'app/shared/model/ProductInventory/depot.model';
+import { IProduit } from 'app/shared/model/ProductInventory/produit.model';
+import { ProduitService } from 'app/entities/ProductInventory/produit/produit.service';
+import { DepotService } from 'app/entities/ProductInventory/depot/depot.service';
 
 @Component({
   selector: 'jhi-mouvement-stock',
   templateUrl: './mouvement-stock.component.html',
 })
 export class MouvementStockComponent implements OnInit, OnDestroy {
-  mouvementStocks?: IMouvementStock[];
+  mouvementStocks!: IMouvementStock[];
+  mouvementStock!: IMouvementStock;
+  produits!: IProduit[];
+  depots!: IDepot[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +31,18 @@ export class MouvementStockComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected mouvementStockService: MouvementStockService,
+    private produitService: ProduitService,
+    private depotService: DepotService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +67,12 @@ export class MouvementStockComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInMouvementStocks();
+    this.produitService.query().subscribe(res => {
+      this.produits = res.body ?? [];
+    });
+    this.depotService.query().subscribe(res => {
+      this.depots = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +105,53 @@ export class MouvementStockComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('mouvementStockListModification', () => this.loadPage());
   }
 
+  getProduitNameById(produitId: number): string {
+    if (this.produits) {
+      const produit = this.produits.find(r => r.id === produitId);
+      return produit ? produit.nom! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+
+  getDepotNomById(depotId: number): string {
+    if (this.depots) {
+      const depot = this.depots.find(r => r.id === depotId);
+      return depot ? depot.nom! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+
+  produitNom = (rowData: any): string => {
+    return this.getProduitNameById(rowData.produitId);
+  };
+
+  depotNom = (rowData: any): string => {
+    return this.getDepotNomById(rowData.depotId);
+  };
+
   delete(mouvementStock: IMouvementStock): void {
     const modalRef = this.modalService.open(MouvementStockDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.mouvementStock = mouvementStock;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/mouvement-stock/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.mouvementStock = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.mouvementStockService.delete(this.mouvementStock.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

@@ -30,8 +30,14 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesCommande.statut" for="field_statut">Statut</label>
-                    <input type="text" class="form-control" name="statut" id="field_statut"
-                           formControlName="statut"/>
+                    <select type="text" class="form-control" name="statut" id="field_statut"
+                            formControlName="statut">
+                        <option value="EN_ATTENTE"> {{ 'tsGatewayAngApp.Statut.EN_ATTENTE' | translate }} </option>
+                        <option value="VALIDEE">{{ 'tsGatewayAngApp.Statut.VALIDEE' | translate }}</option>
+                        <option value="REFUSEE">{{ 'tsGatewayAngApp.Statut.REFUSEE' | translate }}</option>
+                        <option value="ANNULEE">{{ 'tsGatewayAngApp.Statut.ANNULEE' | translate }}</option>
+                        <option value="LIVREE">{{ 'tsGatewayAngApp.Statut.LIVREE' | translate }}</option>
+                    </select>
                     <div *ngIf="editForm.get('statut')!.invalid && (editForm.get('statut')!.dirty || editForm.get('statut')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('statut')?.errors?.required" jhiTranslate="entity.validation.required">
@@ -56,32 +62,54 @@
                     </div>
                 </div>
 
+                <!-- Client -->
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesCommande.client" for="field_client">Client</label>
                     <select class="form-control" id="field_client" name="client" formControlName="clientId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="clientOption.id" *ngFor="let clientOption of clients; trackBy: trackById">{{ clientOption.id }}</option>
+                        <option [ngValue]="clientOption.id" *ngFor="let clientOption of clients; trackBy: trackById">
+                            {{ clientOption.nom }}
+                        </option>
                     </select>
                 </div>
 
+                <!-- Point de Vente -->
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesCommande.pointDeVente" for="field_pointDeVente">Point De Vente</label>
                     <select class="form-control" id="field_pointDeVente" name="pointDeVente" formControlName="pointDeVenteId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="pointDeVenteOption.id" *ngFor="let pointDeVenteOption of pointdeventes; trackBy: trackById">{{ pointDeVenteOption.id }}</option>
+                        <option [ngValue]="pointDeVenteOption.id" *ngFor="let pointDeVenteOption of pointdeventes; trackBy: trackById">
+                            {{ pointDeVenteOption.nom }}
+                        </option>
                     </select>
                 </div>
-            </div>
 
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                </button>
+                <!-- <div class="form-group">
+                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesCommande.client" for="field_client">Client</label>
+                     <select class="form-control" id="field_client" name="client" formControlName="clientId">
+                         <option [ngValue]="null"></option>
+                         <option [ngValue]="clientOption.id" *ngFor="let clientOption of clients; trackBy: trackById">{{ clientOption.id }}</option>
+                     </select>
+                 </div>
 
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+                 <div class="form-group">
+                     <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesCommande.pointDeVente" for="field_pointDeVente">Point De Vente</label>
+                     <select class="form-control" id="field_pointDeVente" name="pointDeVente" formControlName="pointDeVenteId">
+                         <option [ngValue]="null"></option>
+                         <option [ngValue]="pointDeVenteOption.id" *ngFor="let pointDeVenteOption of pointdeventes; trackBy: trackById">{{ pointDeVenteOption.id }}</option>
+                     </select>
+                 </div>-->
+             </div>
+
+             <div>
+                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                     <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                 </button>
+
+                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                     <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                 </button>
+             </div>
+         </form>
+     </div>
+ </div>

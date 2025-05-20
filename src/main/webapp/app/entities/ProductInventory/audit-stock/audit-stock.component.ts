@@ -10,13 +10,18 @@ import { IAuditStock } from 'app/shared/model/ProductInventory/audit-stock.model
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AuditStockService } from './audit-stock.service';
 import { AuditStockDeleteDialogComponent } from './audit-stock-delete-dialog.component';
+import { DepotService } from 'app/entities/ProductInventory/depot/depot.service';
+import { IDepot } from 'app/shared/model/ProductInventory/depot.model';
 
 @Component({
   selector: 'jhi-audit-stock',
   templateUrl: './audit-stock.component.html',
+  styleUrls: ['./audit-stock.component.scss'],
 })
 export class AuditStockComponent implements OnInit, OnDestroy {
-  auditStocks?: IAuditStock[];
+  auditStocks: IAuditStock[] = [];
+  auditStock!: IAuditStock;
+  depots!: IDepot[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +29,16 @@ export class AuditStockComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected auditStockService: AuditStockService,
+    private depotService: DepotService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +63,9 @@ export class AuditStockComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInAuditStocks();
+    this.depotService.query().subscribe(res => {
+      this.depots = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +98,39 @@ export class AuditStockComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('auditStockListModification', () => this.loadPage());
   }
 
+  getDepotNomById(depotId: number): string {
+    if (this.depots) {
+      const depot = this.depots.find(r => r.id === depotId);
+      return depot ? depot.nom! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+  depotNom = (rowData: any): string => {
+    return this.getDepotNomById(rowData.depotId);
+  };
   delete(auditStock: IAuditStock): void {
     const modalRef = this.modalService.open(AuditStockDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.auditStock = auditStock;
   }
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/audit-stock/${e.data.id}/view`]);
+  }
 
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.auditStock = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.auditStockService.delete(this.auditStock.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {

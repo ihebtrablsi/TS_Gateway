@@ -7,9 +7,10 @@ import { PaiementDetailComponent } from './paiement-detail.component';
 import { PaiementUpdateComponent } from './paiement-update.component';
 import { PaiementDeleteDialogComponent } from './paiement-delete-dialog.component';
 import { paiementRoute } from './paiement.route';
+import { DxDataGridModule, DxiColumnModule, DxTemplateModule } from 'devextreme-angular';
 
 @NgModule({
-  imports: [TsGatewayAngSharedModule, RouterModule.forChild(paiementRoute)],
+  imports: [TsGatewayAngSharedModule, RouterModule.forChild(paiementRoute), DxDataGridModule, DxTemplateModule, DxiColumnModule],
   declarations: [PaiementComponent, PaiementDetailComponent, PaiementUpdateComponent, PaiementDeleteDialogComponent],
   entryComponents: [PaiementDeleteDialogComponent],
 })

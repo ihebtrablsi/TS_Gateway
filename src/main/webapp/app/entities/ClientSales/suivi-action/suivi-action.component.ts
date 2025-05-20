@@ -10,13 +10,17 @@ import { ISuiviAction } from 'app/shared/model/ClientSales/suivi-action.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { SuiviActionService } from './suivi-action.service';
 import { SuiviActionDeleteDialogComponent } from './suivi-action-delete-dialog.component';
+import { IActionCommerciale } from 'app/shared/model/ClientSales/action-commerciale.model';
+import { ActionCommercialeService } from 'app/entities/ClientSales/action-commerciale/action-commerciale.service';
 
 @Component({
   selector: 'jhi-suivi-action',
   templateUrl: './suivi-action.component.html',
 })
 export class SuiviActionComponent implements OnInit, OnDestroy {
-  suiviActions?: ISuiviAction[];
+  suiviActions!: ISuiviAction[];
+  suiviAction!: ISuiviAction;
+  actionCommerciales!: IActionCommerciale[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -24,9 +28,17 @@ export class SuiviActionComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  columnResizingMode = 'nextColumn';
+  selectedRowIndex = -1;
 
+  searchPanel = {
+    visible: true,
+    width: 350,
+    placeholder: 'Search',
+  };
   constructor(
     protected suiviActionService: SuiviActionService,
+    private actionCommerciale: ActionCommercialeService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
@@ -51,6 +63,9 @@ export class SuiviActionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.handleNavigation();
     this.registerChangeInSuiviActions();
+    this.actionCommerciale.query().subscribe(res => {
+      this.actionCommerciales = res.body ?? [];
+    });
   }
 
   protected handleNavigation(): void {
@@ -83,11 +98,41 @@ export class SuiviActionComponent implements OnInit, OnDestroy {
     this.eventSubscriber = this.eventManager.subscribe('suiviActionListModification', () => this.loadPage());
   }
 
+  getActionCommercialeNameById(actionCommercialeId: number): string {
+    if (this.actionCommerciales) {
+      const actionCommerciale = this.actionCommerciales.find(r => r.id === actionCommercialeId);
+      return actionCommerciale ? actionCommerciale.nom! : 'Unknown';
+    }
+    return 'Unknown';
+  }
+
+  ActionCommercialeNom = (rowData: any): string => {
+    return this.getActionCommercialeNameById(rowData.actionCommercialeId);
+  };
   delete(suiviAction: ISuiviAction): void {
     const modalRef = this.modalService.open(SuiviActionDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.suiviAction = suiviAction;
   }
 
+  onRowDblClick(e: any): void {
+    this.router.navigate([`/suivi-action/${e.data.id}/view`]);
+  }
+
+  selectedChanged(e: any): void {
+    this.selectedRowIndex = e.component.getRowIndexByKey(e.selectedRowKeys[0]);
+  }
+
+  onDeleteBtnClicked(e: any, content: any): void {
+    this.suiviAction = e.data;
+    this.modalService.open(content, { centered: true });
+  }
+
+  confirmDelete(content: any): void {
+    this.suiviActionService.delete(this.suiviAction.id!).subscribe(() => {
+      content.close();
+      this.loadPage();
+    });
+  }
   sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
