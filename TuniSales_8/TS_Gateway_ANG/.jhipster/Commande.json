@@ -1,0 +1,48 @@
+{
+  "name": "Commande",
+  "fields": [
+    {
+      "fieldName": "dateCommande",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "statut",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "total",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "client",
+      "otherEntityRelationshipName": "commande",
+      "relationshipName": "client",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "pointDeVente",
+      "otherEntityRelationshipName": "commande",
+      "relationshipName": "pointDeVente",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20250319102221",
+  "entityTableName": "commande",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["TS_Gateway_ANG", "ClientSales"],
+  "microserviceName": "ClientSales"
+}

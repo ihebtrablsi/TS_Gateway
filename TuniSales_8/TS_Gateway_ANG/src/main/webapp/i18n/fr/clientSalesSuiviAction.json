@@ -1,0 +1,29 @@
+{
+  "tsGatewayAngApp": {
+    "clientSalesSuiviAction": {
+      "home": {
+        "title": "SuiviActions",
+        "createLabel": "Créer un nouveau Suivi Action",
+        "createOrEditLabel": "Créer ou éditer un Suivi Action",
+        "notFound": "Aucun Suivi Action trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Suivi Action {{ id }} ?"
+      },
+      "detail": {
+        "title": "Suivi Action"
+      },
+      "dateSuivi": "Date Suivi",
+      "indicateurs": "Indicateurs",
+      "commentaire": "Commentaire",
+      "actionCommerciale": "Action Commerciale"
+    }
+  },
+  "clientSalesApp": {
+    "clientSalesSuiviAction": {
+      "created": "Un nouveau Suivi Action a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Suivi Action avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Suivi Action avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

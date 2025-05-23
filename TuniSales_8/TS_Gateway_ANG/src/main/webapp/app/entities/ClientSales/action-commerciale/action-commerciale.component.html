@@ -1,0 +1,142 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.home.title">Action Commerciales</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-action-commerciale" [routerLink]="['/action-commerciale/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.home.createLabel">
+            Create a new Action Commerciale
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="actionCommerciales?.length === 0">
+        <span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.home.notFound">No actionCommerciales found</span>
+    </div>
+
+    <dx-data-grid
+        style="width: 100%; font-size: 13px; clear: both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="actionCommerciales"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher une action commerciale...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="false"
+        [allowColumnResizing]="true"
+        [columnResizingMode]="'nextColumn'"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="nom" [caption]="'tsGatewayAngApp.clientSalesActionCommerciale.nom' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="description" [caption]="'tsGatewayAngApp.clientSalesActionCommerciale.description' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="dateDebut" [caption]="'tsGatewayAngApp.clientSalesActionCommerciale.dateDebut' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="dateFin" [caption]="'tsGatewayAngApp.clientSalesActionCommerciale.dateFin' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="typeAction" [caption]="'tsGatewayAngApp.clientSalesActionCommerciale.typeAction' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="statut" [caption]="'tsGatewayAngApp.clientSalesActionCommerciale.statut' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="pointDeVente" [caption]="'tsGatewayAngApp.clientSalesActionCommerciale.pointDeVente' | translate" dataType="string" alignment="left" [calculateCellValue]="pointDeVenteNom"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer l'action commerciale' : </p>
+                <strong>{{actionCommerciale.nom}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--<div class="table-responsive" id="entities" *ngIf="actionCommerciales && actionCommerciales.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="nom"><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.nom">Nom</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateDebut"><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.dateDebut">Date Debut</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateFin"><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.dateFin">Date Fin</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="typeAction"><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.typeAction">Type Action</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="statut"><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.statut">Statut</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="pointDeVenteId"><span jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.pointDeVente">Point De Vente</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let actionCommerciale of actionCommerciales ;trackBy: trackId">
+                    <td><a [routerLink]="['/action-commerciale', actionCommerciale.id, 'view']">{{ actionCommerciale.id }}</a></td>
+                    <td>{{ actionCommerciale.nom }}</td>
+                    <td>{{ actionCommerciale.description }}</td>
+                    <td>{{ actionCommerciale.dateDebut | date:'medium' }}</td>
+                    <td>{{ actionCommerciale.dateFin | date:'medium' }}</td>
+                    <td>{{ actionCommerciale.typeAction }}</td>
+                    <td>{{ actionCommerciale.statut }}</td>
+                    <td>
+                        <div *ngIf="actionCommerciale.pointDeVenteId">
+                            <a [routerLink]="['/point-de-vente', actionCommerciale.pointDeVenteId , 'view']" >{{ actionCommerciale.pointDeVenteId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/action-commerciale', actionCommerciale.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/action-commerciale', actionCommerciale.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(actionCommerciale)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
+
+    <div *ngIf="actionCommerciales && actionCommerciales.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

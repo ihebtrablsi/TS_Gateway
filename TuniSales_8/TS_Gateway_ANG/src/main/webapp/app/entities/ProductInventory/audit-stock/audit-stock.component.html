@@ -1,0 +1,132 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.home.title">Audit Stocks</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-audit-stock" [routerLink]="['/audit-stock/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.home.createLabel">
+            Create a new Audit Stock
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="auditStocks?.length === 0">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.home.notFound">No auditStocks found</span>
+    </div>
+    <dx-data-grid
+        style="clear:both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="auditStocks"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="searchPanel"
+        [showBorders]="true"
+        [columnResizingMode]="'nextColumn'"
+        [columnAutoWidth]="true"
+        [allowColumnResizing]="true"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)">
+    >
+        <dxi-column dataField="dateAudit" [caption]="'tsGatewayAngApp.productInventoryAuditStock.dateAudit' | translate" dataType="string" alignment="center"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="statut" [caption]="'tsGatewayAngApp.productInventoryAuditStock.statut' | translate" dataType="string" alignment="center"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="commentaire" [caption]="'tsGatewayAngApp.productInventoryAuditStock.commentaire' | translate" dataType="string" alignment="center"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="depot" [caption]="'tsGatewayAngApp.productInventoryAuditStock.depot' | translate" dataType="number" alignment="center" [calculateCellValue]="depotNom"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer l'audit stock : </p>
+                <strong>{{auditStock.commentaire}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--<div class="table-responsive" id="entities" *ngIf="auditStocks && auditStocks.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateAudit"><span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.dateAudit">Date Audit</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="statut"><span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.statut">Statut</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="commentaire"><span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.commentaire">Commentaire</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="depotId"><span jhiTranslate="tsGatewayAngApp.productInventoryAuditStock.depot">Depot</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let auditStock of auditStocks ;trackBy: trackId">
+                    <td><a [routerLink]="['/audit-stock', auditStock.id, 'view']">{{ auditStock.id }}</a></td>
+                    <td>{{ auditStock.dateAudit | date:'medium' }}</td>
+                    <td>{{ auditStock.statut }}</td>
+                    <td>{{ auditStock.commentaire }}</td>
+                    <td>
+                        <div *ngIf="auditStock.depotId">
+                            <a [routerLink]="['/depot', auditStock.depotId , 'view']" >{{ auditStock.depotId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/audit-stock', auditStock.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/audit-stock', auditStock.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(auditStock)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
+
+    <div *ngIf="auditStocks && auditStocks.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+{
+  "tsGatewayAngApp": {
+    "clientSalesPointDeVente": {
+      "home": {
+        "title": "Point De Ventes",
+        "createLabel": "Create a new Point De Vente",
+        "createOrEditLabel": "Create or edit a Point De Vente",
+        "notFound": "No Point De Ventes found"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete Point De Vente {{ id }}?"
+      },
+      "detail": {
+        "title": "Point De Vente"
+      },
+      "nom": "Nom",
+      "adresse": "Adresse",
+      "ville": "Ville",
+      "codePostal": "Code Postal",
+      "telephone": "Telephone",
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    }
+  },
+  "clientSalesApp": {
+    "clientSalesPointDeVente": {
+      "created": "A new Point De Vente is created with identifier {{ param }}",
+      "updated": "A Point De Vente is updated with identifier {{ param }}",
+      "deleted": "A Point De Vente is deleted with identifier {{ param }}"
+    }
+  }
+}

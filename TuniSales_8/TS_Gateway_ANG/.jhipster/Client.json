@@ -1,0 +1,40 @@
+{
+  "name": "Client",
+  "fields": [
+    {
+      "fieldName": "nom",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "telephone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "adresse",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "typeClient",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20250319101821",
+  "entityTableName": "client",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["TS_Gateway_ANG", "ClientSales"],
+  "microserviceName": "ClientSales"
+}

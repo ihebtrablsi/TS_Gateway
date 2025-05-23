@@ -1,0 +1,32 @@
+{
+  "tsGatewayAngApp": {
+    "clientSalesPointDeVente": {
+      "home": {
+        "title": "PointDeVentes",
+        "createLabel": "Créer un nouveau Point De Vente",
+        "createOrEditLabel": "Créer ou éditer un Point De Vente",
+        "notFound": "Aucun Point De Vente trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Point De Vente {{ id }} ?"
+      },
+      "detail": {
+        "title": "Point De Vente"
+      },
+      "nom": "Nom",
+      "adresse": "Adresse",
+      "ville": "Ville",
+      "codePostal": "Code Postal",
+      "telephone": "Telephone",
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    }
+  },
+  "clientSalesApp": {
+    "clientSalesPointDeVente": {
+      "created": "Un nouveau Point De Vente a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Point De Vente avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Point De Vente avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

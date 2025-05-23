@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="ecartStock">
+            <h2><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.detail.title">Ecart Stock</span> {{ ecartStock.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.quantiteTheorique">Quantite Theorique</span></dt>
+                <dd>
+                    <span>{{ ecartStock.quantiteTheorique }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.quantitePhysique">Quantite Physique</span></dt>
+                <dd>
+                    <span>{{ ecartStock.quantitePhysique }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.ecart">Ecart</span></dt>
+                <dd>
+                    <span>{{ ecartStock.ecart }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.commentaire">Commentaire</span></dt>
+                <dd>
+                    <span>{{ ecartStock.commentaire }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.produit">Produit</span></dt>
+                <dd>
+                    <div *ngIf="ecartStock.produitId">
+                        <a [routerLink]="['/produit', ecartStock.produitId, 'view']">{{ produitNom }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.audit">Audit</span></dt>
+                <dd>
+                    <div *ngIf="ecartStock.auditId">
+                        <a [routerLink]="['/audit-stock', ecartStock.auditId, 'view']">{{ auditDate }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/ecart-stock', ecartStock.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

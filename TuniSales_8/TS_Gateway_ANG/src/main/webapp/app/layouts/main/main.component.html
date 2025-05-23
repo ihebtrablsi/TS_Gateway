@@ -1,0 +1,77 @@
+
+
+<!--jhi-page-ribbon></jhi-page-ribbon-->
+<div class="container-fluid myhead row">
+<!--   <div class="row">-->
+    <div class="col-md-2 col-sm-4  left-menu   " *ngIf="scrWidth >= 1122">
+        <span class="logo-img"></span>
+        <span class="row  gpf"></span>
+        <span class="row date-text">{{myDate | date: 'medium' }}</span>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-5 left-menu   " *ngIf="scrWidth <= 767">
+        <span class="logo-img"></span>
+        <span class="row  gpf"></span>
+        <span class="row date-text">{{myDate | date: 'medium' }}</span>
+    </div>
+    <div class="col ">
+        <router-outlet name="navbar"></router-outlet>
+    </div>
+</div> <!--    </div>-->
+
+<div class="container-fluid mybody">
+    <div class="row">
+        <div *ngIf="scrWidth>=768 && isAuthenticated()" class="left-menu col-md-2 ">
+            <div class="logoandtimedown" *ngIf="1111 > scrWidth && scrWidth >767 ">
+                <span class="logo-img"></span>
+                <span class="row  gpf2"></span>
+                <span class="row date-text">{{myDate | date: 'medium' }}</span>
+            </div>
+            <jhi-sidenav></jhi-sidenav>
+        </div>
+
+        <!--        <div class="col card  applicationContent" >-->
+        <div class="col ">
+            <router-outlet name="breadcrumb" *ngIf="isAuthenticated()"></router-outlet>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+<!--<div class="container-fluid myhead row">-->
+<!--    &lt;!&ndash;    <div class="row">&ndash;&gt;-->
+<!--    <div class="col-md-2 col-sm-4 col-5 left-menu   " *ngIf="scrWidth >= 1111">-->
+<!--        <span class="row  gpf"></span>-->
+<!--        <span class="row date-text">{{myDate | date: 'medium' }}</span>-->
+<!--    </div>-->
+<!--    <div class="col-md-2 col-sm-4 col-5 left-menu   " *ngIf="scrWidth <= 767">-->
+<!--        <span class="row  gpf"></span>-->
+<!--        <span class="row date-text">{{myDate | date: 'medium' }}</span>-->
+<!--    </div>-->
+<!--    <div class="col ">-->
+<!--        <router-outlet name="navbar"></router-outlet>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;    </div>&ndash;&gt;-->
+<!--</div>-->
+<!--<div class="container-fluid mybody">-->
+<!--    <div class="row">-->
+<!--        <div *ngIf="scrWidth>=768 && isAuthenticated" class="left-menu col-md-2 ">-->
+<!--            <div class="logoandtimedown" *ngIf="1111 > scrWidth && scrWidth >767 ">-->
+<!--                <span class="row  gpf2"></span>-->
+<!--                <span class="row date-text"></span>-->
+<!--            </div>-->
+<!--            <jhi-sidenav ></jhi-sidenav>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash;        <div class="col card  applicationContent" >&ndash;&gt;-->
+<!--        <div class="col ">-->
+<!--            <router-outlet name="breadcrumb" *ngIf=" isAuthenticated"></router-outlet>-->
+<!--            <router-outlet></router-outlet>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--jhi-page-ribbon></jhi-page-ribbon-->
+
+
+<!--<div>-->
+<!--    <router-outlet name="footer"></router-outlet>-->
+<!--</div>-->

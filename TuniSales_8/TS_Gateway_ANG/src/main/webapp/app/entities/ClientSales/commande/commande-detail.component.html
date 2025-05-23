@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="commande">
+            <h2><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.detail.title">Commande</span> {{ commande.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.dateCommande">Date Commande</span></dt>
+                <dd>
+                    <span>{{ commande.dateCommande }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.statut">Statut</span></dt>
+                <dd>
+                    <span>{{ commande.statut }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.total">Total</span></dt>
+                <dd>
+                    <span>{{ commande.total }}</span>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.client">Client</span></dt>
+                <dd>
+                    <div *ngIf="commande.clientId">
+                        <a [routerLink]="['/client', commande.clientId, 'view']">{{ clientNom }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="tsGatewayAngApp.clientSalesCommande.pointDeVente">Point De Vente</span></dt>
+                <dd>
+                    <div *ngIf="commande.pointDeVenteId">
+                        <a [routerLink]="['/point-de-vente', commande.pointDeVenteId, 'view']">{{ pointDeVenteNom }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/commande', commande.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

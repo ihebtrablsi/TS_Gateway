@@ -1,0 +1,155 @@
+<div class="leftmenudiv">
+    <table *ngIf="isAuthenticated() && currentNav == 'tableaubord'" class="table">
+
+        <!-- Section Produits & Stocks -->
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN, Authority.MAGASINIER]" class="trTop">
+            <td class="tdTop" [ngClass]="selectedParentButton=='productInventory'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary"
+                        [ngClass]="selectedParentButton=='productInventory'?'buttonSelected':'buttonNotSelected'"
+                        (click)="selectedParentButton='productInventory'; selectedChildButton=''">
+                    <span class="spanParent">Produits & Stocks</span>
+                </button>
+            </td>
+        </tr>
+        <ng-container *ngIf="selectedParentButton === 'productInventory'">
+            <ng-container *ngFor="let route of ['produit', 'famille-produit', 'promotion', 'code']">
+                <tr class="trChild">
+                    <td class="tdChild">
+                        <button class="btn btn-primary"
+                                [ngClass]="selectedChildButton==route?'buttonChildSelected':'buttonChildNotSelected'"
+                                [routerLink]="['/' + route]"
+                                (click)="selectedChildButton=route">
+                            <span class="spanClild">{{ route | titlecase }}</span>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+
+        <!-- Section Mouvements & Dépôts -->
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN, Authority.MAGASINIER]" class="trTop">
+            <td class="tdTop" [ngClass]="selectedParentButton=='mouvements'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary"
+                        [ngClass]="selectedParentButton=='mouvements'?'buttonSelected':'buttonNotSelected'"
+                        (click)="selectedParentButton='mouvements'; selectedChildButton=''">
+                    <span class="spanParent">Mouvements & Dépôts</span>
+                </button>
+            </td>
+        </tr>
+        <ng-container *ngIf="selectedParentButton === 'mouvements'">
+            <ng-container *ngFor="let route of ['mouvement-stock', 'depot']">
+                <tr class="trChild">
+                    <td class="tdChild">
+                        <button class="btn btn-primary"
+                                [ngClass]="selectedChildButton==route?'buttonChildSelected':'buttonChildNotSelected'"
+                                [routerLink]="['/' + route]"
+                                (click)="selectedChildButton=route">
+                            <span class="spanClild">{{ route | titlecase }}</span>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+
+        <!-- Section Contrôle & Audit -->
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN, Authority.MAGASINIER]" class="trTop">
+            <td class="tdTop" [ngClass]="selectedParentButton=='audit'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary"
+                        [ngClass]="selectedParentButton=='audit'?'buttonSelected':'buttonNotSelected'"
+                        (click)="selectedParentButton='audit'; selectedChildButton=''">
+                    <span class="spanParent">Contrôle & Audit</span>
+                </button>
+            </td>
+        </tr>
+        <ng-container *ngIf="selectedParentButton === 'audit'">
+            <ng-container *ngFor="let route of ['audit-stock', 'ecart-stock']">
+                <tr class="trChild">
+                    <td class="tdChild">
+                        <button class="btn btn-primary"
+                                [ngClass]="selectedChildButton==route?'buttonChildSelected':'buttonChildNotSelected'"
+                                [routerLink]="['/' + route]"
+                                (click)="selectedChildButton=route">
+                            <span class="spanClild">{{ route | titlecase }}</span>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+
+        <!-- Section Clientèle & Réseau -->
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN, Authority.COMMERCIAL, Authority.RPV_CLIENT, Authority.ADMIN_COMMERCIAL]" class="trTop">
+            <td class="tdTop" [ngClass]="selectedParentButton=='clientSales'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary"
+                        [ngClass]="selectedParentButton=='clientSales'?'buttonSelected':'buttonNotSelected'"
+                        (click)="selectedParentButton='clientSales'; selectedChildButton=''">
+                    <span class="spanParent">Clientèle & Réseau</span>
+                </button>
+            </td>
+        </tr>
+        <ng-container *ngIf="selectedParentButton === 'clientSales'">
+            <ng-container *ngFor="let route of ['client', 'point-de-vente', 'action-commerciale', 'suivi-action', 'panier-bonus']">
+                <tr class="trChild">
+                    <td class="tdChild">
+                        <button class="btn btn-primary"
+                                [ngClass]="selectedChildButton==route?'buttonChildSelected':'buttonChildNotSelected'"
+                                [routerLink]="['/' + route]"
+                                (click)="selectedChildButton=route">
+                            <span class="spanClild">{{ route | titlecase }}</span>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+
+        <!-- Section Commandes & Ventes -->
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN, Authority.COMMERCIAL, Authority.RPV_CLIENT, Authority.VENDEUR]" class="trTop">
+            <td class="tdTop" [ngClass]="selectedParentButton=='orders'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary"
+                        [ngClass]="selectedParentButton=='orders'?'buttonSelected':'buttonNotSelected'"
+                        (click)="selectedParentButton='orders'; selectedChildButton=''">
+                    <span class="spanParent">Commandes & Ventes</span>
+                </button>
+            </td>
+        </tr>
+        <ng-container *ngIf="selectedParentButton === 'orders'">
+            <ng-container *ngFor="let route of ['commande', 'ligne-commande']">
+                <tr class="trChild">
+                    <td class="tdChild">
+                        <button class="btn btn-primary"
+                                [ngClass]="selectedChildButton==route?'buttonChildSelected':'buttonChildNotSelected'"
+                                [routerLink]="['/' + route]"
+                                (click)="selectedChildButton=route">
+                            <span class="spanClild">{{ route | titlecase }}</span>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+
+        <!-- Section Gestion Financière -->
+        <tr *jhiHasAnyAuthority="[Authority.ADMIN, Authority.ADMIN_COMMERCIAL]" class="trTop">
+            <td class="tdTop" [ngClass]="selectedParentButton=='finance'?'arrowUp':'arrowBot'">
+                <button class="btn btn-primary"
+                        [ngClass]="selectedParentButton=='finance'?'buttonSelected':'buttonNotSelected'"
+                        (click)="selectedParentButton='finance'; selectedChildButton=''">
+                    <span class="spanParent">Gestion Financière</span>
+                </button>
+            </td>
+        </tr>
+        <ng-container *ngIf="selectedParentButton === 'finance'">
+            <ng-container *ngFor="let route of ['paiement', 'facture', 'compte', 'lettrage', 'bonus', 'ristourne', 'incentive']">
+                <tr class="trChild">
+                    <td class="tdChild">
+                        <button class="btn btn-primary"
+                                [ngClass]="selectedChildButton==route?'buttonChildSelected':'buttonChildNotSelected'"
+                                [routerLink]="['/' + route]"
+                                (click)="selectedChildButton=route">
+                            <span class="spanClild">{{ route | titlecase }}</span>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </ng-container>
+
+    </table>
+</div>

@@ -1,0 +1,31 @@
+{
+  "tsGatewayAngApp": {
+    "financeIncentive": {
+      "home": {
+        "title": "Incentives",
+        "createLabel": "Créer un nouveau Incentive",
+        "createOrEditLabel": "Créer ou éditer un Incentive",
+        "notFound": "Aucun Incentive trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Incentive {{ id }} ?"
+      },
+      "detail": {
+        "title": "Incentive"
+      },
+      "nom": "Nom",
+      "description": "Description",
+      "dateDebut": "Date Debut",
+      "dateFin": "Date Fin",
+      "regles": "Regles",
+      "bonus": "Bonus"
+    }
+  },
+  "financeApp": {
+    "financeIncentive": {
+      "created": "Un nouveau Incentive a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Incentive avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Incentive avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "tsGatewayAngApp": {
+    "financeRistourne": {
+      "home": {
+        "title": "Ristournes",
+        "createLabel": "Créer un nouveau Ristourne",
+        "createOrEditLabel": "Créer ou éditer un Ristourne",
+        "notFound": "Aucun Ristourne trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Ristourne {{ id }} ?"
+      },
+      "detail": {
+        "title": "Ristourne"
+      },
+      "montant": "Montant",
+      "dateAttribution": "Date Attribution"
+    }
+  },
+  "financeApp": {
+    "financeRistourne": {
+      "created": "Un nouveau Ristourne a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Ristourne avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Ristourne avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

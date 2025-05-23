@@ -1,0 +1,29 @@
+{
+  "tsGatewayAngApp": {
+    "financeLettrage": {
+      "home": {
+        "title": "Lettrages",
+        "createLabel": "Créer un nouveau Lettrage",
+        "createOrEditLabel": "Créer ou éditer un Lettrage",
+        "notFound": "Aucun Lettrage trouvé"
+      },
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Lettrage {{ id }} ?"
+      },
+      "detail": {
+        "title": "Lettrage"
+      },
+      "dateLettrage": "Date Lettrage",
+      "montantLettre": "Montant Lettre",
+      "facture": "Facture",
+      "paiement": "Paiement"
+    }
+  },
+  "financeApp": {
+    "financeLettrage": {
+      "created": "Un nouveau Lettrage a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Lettrage avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Lettrage avec l'identifiant {{ param }} a été supprimé"
+    }
+  }
+}

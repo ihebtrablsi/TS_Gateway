@@ -1,0 +1,126 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="tsGatewayAngApp.financeCompte.home.title">Comptes</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-compte" [routerLink]="['/compte/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="tsGatewayAngApp.financeCompte.home.createLabel">
+            Create a new Compte
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="comptes?.length === 0">
+        <span jhiTranslate="tsGatewayAngApp.financeCompte.home.notFound">No comptes found</span>
+    </div>
+
+    <dx-data-grid
+        style="width: 100%; font-size: 13px; clear: both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="comptes"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher un compte...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="false"
+        [allowColumnResizing]="true"
+        [columnResizingMode]="'nextColumn'"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="numeroCompte" [caption]="'tsGatewayAngApp.financeCompte.numeroCompte' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="solde" [caption]="'tsGatewayAngApp.financeCompte.solde' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="typeCompte" [caption]="'tsGatewayAngApp.financeCompte.typeCompte' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer le compte' : </p>
+                <strong>{{compte.numeroCompte}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--<div class="table-responsive" id="entities" *ngIf="comptes && comptes.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="numeroCompte"><span jhiTranslate="tsGatewayAngApp.financeCompte.numeroCompte">Numero Compte</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="solde"><span jhiTranslate="tsGatewayAngApp.financeCompte.solde">Solde</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="typeCompte"><span jhiTranslate="tsGatewayAngApp.financeCompte.typeCompte">Type Compte</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let compte of comptes ;trackBy: trackId">
+                    <td><a [routerLink]="['/compte', compte.id, 'view']">{{ compte.id }}</a></td>
+                    <td>{{ compte.numeroCompte }}</td>
+                    <td>{{ compte.solde }}</td>
+                    <td>{{ compte.typeCompte }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/compte', compte.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/compte', compte.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(compte)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
+
+    <div *ngIf="comptes && comptes.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

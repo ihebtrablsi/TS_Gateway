@@ -1,0 +1,141 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.home.title">Mouvement Stocks</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-mouvement-stock" [routerLink]="['/mouvement-stock/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.home.createLabel">
+            Create a new Mouvement Stock
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="mouvementStocks?.length === 0">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.home.notFound">No mouvementStocks found</span>
+    </div>
+
+    <dx-data-grid
+        style="clear:both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="mouvementStocks"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher un mouvement stock...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="true"
+        [allowColumnResizing]="true"
+        [columnResizingMode]="'nextColumn'"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="typeMouvement" [caption]="'tsGatewayAngApp.productInventoryMouvementStock.typeMouvement' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="quantite" [caption]="'tsGatewayAngApp.productInventoryMouvementStock.quantite' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="dateMouvement" [caption]="'tsGatewayAngApp.productInventoryMouvementStock.dateMouvement' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="produitId" [caption]="'tsGatewayAngApp.productInventoryMouvementStock.produit' | translate" dataType="string" alignment="left" [calculateCellValue]="produitNom"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="depotId" [caption]="'tsGatewayAngApp.productInventoryMouvementStock.depot' | translate" dataType="string" alignment="left" [calculateCellValue]="depotNom"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer le mouvement stock : </p>
+                <strong>{{mouvementStock.typeMouvement}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+
+    <!--<div class="table-responsive" id="entities" *ngIf="mouvementStocks && mouvementStocks.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="typeMouvement"><span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.typeMouvement">Type Mouvement</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="quantite"><span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.quantite">Quantite</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="dateMouvement"><span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.dateMouvement">Date Mouvement</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="produitId"><span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.produit">Produit</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="depotId"><span jhiTranslate="tsGatewayAngApp.productInventoryMouvementStock.depot">Depot</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let mouvementStock of mouvementStocks ;trackBy: trackId">
+                    <td><a [routerLink]="['/mouvement-stock', mouvementStock.id, 'view']">{{ mouvementStock.id }}</a></td>
+                    <td>{{ mouvementStock.typeMouvement }}</td>
+                    <td>{{ mouvementStock.quantite }}</td>
+                    <td>{{ mouvementStock.dateMouvement | date:'medium' }}</td>
+                    <td>
+                        <div *ngIf="mouvementStock.produitId">
+                            <a [routerLink]="['/produit', mouvementStock.produitId , 'view']" >{{ mouvementStock.produitId }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="mouvementStock.depotId">
+                            <a [routerLink]="['/depot', mouvementStock.depotId , 'view']" >{{ mouvementStock.depotId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/mouvement-stock', mouvementStock.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/mouvement-stock', mouvementStock.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(mouvementStock)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
+
+    <div *ngIf="mouvementStocks && mouvementStocks.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

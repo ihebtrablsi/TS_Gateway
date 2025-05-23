@@ -1,0 +1,110 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-action-commerciale-heading" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.home.createOrEditLabel">Create or edit a Action Commerciale</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.nom" for="field_nom">Nom</label>
+                    <input type="text" class="form-control" name="nom" id="field_nom"
+                           formControlName="nom"/>
+                    <div *ngIf="editForm.get('nom')!.invalid && (editForm.get('nom')!.dirty || editForm.get('nom')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('nom')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.description" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           formControlName="description"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.dateDebut" for="field_dateDebut">Date Debut</label>
+                    <div class="d-flex">
+                        <input id="field_dateDebut" type="datetime-local" class="form-control" name="dateDebut" formControlName="dateDebut" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dateDebut')!.invalid && (editForm.get('dateDebut')!.dirty || editForm.get('dateDebut')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dateDebut')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dateDebut')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.dateFin" for="field_dateFin">Date Fin</label>
+                    <div class="d-flex">
+                        <input id="field_dateFin" type="datetime-local" class="form-control" name="dateFin" formControlName="dateFin" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('dateFin')!.invalid && (editForm.get('dateFin')!.dirty || editForm.get('dateFin')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dateFin')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('dateFin')?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.typeAction" for="field_typeAction">Type Action</label>
+                    <input type="text" class="form-control" name="typeAction" id="field_typeAction"
+                           formControlName="typeAction"/>
+                    <div *ngIf="editForm.get('typeAction')!.invalid && (editForm.get('typeAction')!.dirty || editForm.get('typeAction')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('typeAction')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.statut" for="field_statut">Statut</label>
+                    <input type="text" class="form-control" name="statut" id="field_statut"
+                           formControlName="statut"/>
+                    <div *ngIf="editForm.get('statut')!.invalid && (editForm.get('statut')!.dirty || editForm.get('statut')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('statut')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="tsGatewayAngApp.clientSalesActionCommerciale.pointDeVente" for="field_pointDeVente">Point De Vente</label>
+                    <select class="form-control" id="field_pointDeVente" name="pointDeVente" formControlName="pointDeVenteId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="pointDeVenteOption.id" *ngFor="let pointDeVenteOption of pointdeventes; trackBy: trackById">{{ pointDeVenteOption.nom }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

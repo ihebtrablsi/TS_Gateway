@@ -1,0 +1,98 @@
+.jh-card {
+  padding: 0.5% 0%;
+  margin-top: 0px;
+  border: none;
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.date-text {
+  color: #000000;
+  padding: 0% 0% 0% 0%;
+  font-size: 1.5vh;
+  font-weight: normal;
+  justify-content: center;
+}
+
+.logoandtimedown {
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: solid blue 1px;
+  text-align: center;
+}
+
+.gpf {
+  height: 4vh;
+  background: url('../../../content/images/logo.svp.png') no-repeat center center;
+}
+.gpf2 {
+  //background: url('../../../content/images/gpf.svg') no-repeat center center;
+}
+//.gpf {
+//  height: 4vh;
+//  padding: 0% 100% 0% 0%;
+//  width: 180px;
+//  background: url('../../../content/images/Orgacare.svg') no-repeat center center;
+//}
+
+.row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+.logo-img {
+  max-height: 60px;
+  width: auto;
+
+  vertical-align: middle;
+  background: url('../../../content/images/logo_Tunisales.png');
+}
+//.logo-img {
+//  height: 45px;
+//  width: 45px;
+//  display: inline-block;
+//  vertical-align: middle;
+//  background: url('../../../content/images/logo_Tunisales.png') no-repeat center center;
+//  background-size: contain;
+//}
+
+//.logodiv {
+//  background-color: #f8f8fe;
+//  border-color: #f8f8fe;
+//  border-bottom-color: #7676e9;
+//  border-bottom-width: 1px;
+//  border-style: solid;
+//}
+//
+//.navdiv {
+//  background-color: white;
+//  border-color: #f8f8fe;
+//  border-bottom-color: #7676e9;
+//  border-bottom-width: 1px;
+//  border-style: solid;
+//}
+.left-menu {
+  background-color: rgb(212, 214, 225);
+  padding-left: 0.3rem;
+  //text-align: center;
+}
+
+.myhead {
+  background-color: white;
+  border-color: #f8f8fe;
+  border-bottom-color: #a1c3ac;
+  border-bottom-width: 1px;
+  border-style: solid;
+  min-height: 8vh;
+  align-items: center;
+}
+
+.mybody {
+  min-height: 91vh;
+  background-color: white;
+}

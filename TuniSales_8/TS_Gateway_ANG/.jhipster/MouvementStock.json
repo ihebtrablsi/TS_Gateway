@@ -1,0 +1,49 @@
+{
+  "name": "MouvementStock",
+  "fields": [
+    {
+      "fieldName": "typeMouvement",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quantite",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "dateMouvement",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "produit",
+      "otherEntityRelationshipName": "mouvementStock",
+      "relationshipName": "produit",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "depot",
+      "otherEntityRelationshipName": "mouvementStock",
+      "relationshipName": "depot",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20250319101321",
+  "entityTableName": "mouvement_stock",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["TS_Gateway_ANG", "ProductInventory"],
+  "microserviceName": "ProductInventory"
+}

@@ -1,0 +1,143 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.home.title">Ecart Stocks</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-ecart-stock" [routerLink]="['/ecart-stock/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.home.createLabel">
+            Create a new Ecart Stock
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+    <div class="alert alert-warning" id="no-result" *ngIf="ecartStocks?.length === 0">
+        <span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.home.notFound">No ecartStocks found</span>
+    </div>
+
+    <jhi-alert></jhi-alert>
+    <dx-data-grid
+        style="clear:both;"
+        id="grid"
+        class="a-type-of-grid"
+        aria-describedby="page-heading"
+        [dataSource]="ecartStocks"
+        [rowAlternationEnabled]="true"
+        [allowColumnReordering]="true"
+        [searchPanel]="{ visible: true, width: 240, placeholder: 'Rechercher un ecart stock...' }"
+        [showBorders]="true"
+        [columnAutoWidth]="true"
+        [allowColumnResizing]="true"
+        [columnResizingMode]="'nextColumn'"
+        keyExpr="id"
+        (onRowDblClick)="onRowDblClick($event)"
+        (onSelectionChanged)="selectedChanged($event)"
+    >
+        <dxi-column dataField="quantiteTheorique" [caption]="'tsGatewayAngApp.productInventoryEcartStock.quantiteTheorique' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="quantitePhysique" [caption]="'tsGatewayAngApp.productInventoryEcartStock.quantitePhysique' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="ecart" [caption]="'tsGatewayAngApp.productInventoryEcartStock.ecart' | translate" dataType="number" format="#,##0.00" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="commentaire" [caption]="'tsGatewayAngApp.productInventoryEcartStock.commentaire' | translate" dataType="string" alignment="left"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="produit" [caption]="'tsGatewayAngApp.productInventoryEcartStock.produit' | translate" dataType="string" alignment="left" [calculateCellValue]="produitNom"><fa-icon icon="sort"></fa-icon></dxi-column>
+        <dxi-column dataField="audit" [caption]="'tsGatewayAngApp.productInventoryEcartStock.audit' | translate" dataType="string" alignment="left" [calculateCellValue]="auditDate"><fa-icon icon="sort"></fa-icon></dxi-column>
+
+        <!-- Colonne Action avec template -->
+        <dxi-column caption="Action" alignment="center"  fixedPosition="right" cellTemplate="ActionTemplate">
+            <div *dxTemplate="let d of 'ActionTemplate'">
+                <button type="button"
+                        class="btn btn-danger dataGridActionbtn"
+                        (click)="onDeleteBtnClicked(d, deleteModal)">
+                    <span class="dx-icon-trash"></span>
+                </button>
+            </div>
+        </dxi-column>
+    </dx-data-grid>
+
+
+    <ng-template #deleteModal let-deleteModal class="modal-dialog">
+        <form (ngSubmit)="confirmDelete(deleteModal);">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation de suppression!</h4>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer l'ecart stock' : </p>
+                <strong>{{ecartStock.ecart}}?</strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-model" (click)="deleteModal.close('Close click')">
+                    Annuler
+                </button>
+                <button type="submit" class="btn btn-danger btn-model">Supprimer</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--
+
+    <div class="table-responsive" id="entities" *ngIf="ecartStocks && ecartStocks.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="quantiteTheorique"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.quantiteTheorique">Quantite Theorique</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="quantitePhysique"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.quantitePhysique">Quantite Physique</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="ecart"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.ecart">Ecart</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="commentaire"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.commentaire">Commentaire</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="produitId"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.produit">Produit</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="auditId"><span jhiTranslate="tsGatewayAngApp.productInventoryEcartStock.audit">Audit</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ecartStock of ecartStocks ;trackBy: trackId">
+                    <td><a [routerLink]="['/ecart-stock', ecartStock.id, 'view']">{{ ecartStock.id }}</a></td>
+                    <td>{{ ecartStock.quantiteTheorique }}</td>
+                    <td>{{ ecartStock.quantitePhysique }}</td>
+                    <td>{{ ecartStock.ecart }}</td>
+                    <td>{{ ecartStock.commentaire }}</td>
+                    <td>
+                        <div *ngIf="ecartStock.produitId">
+                            <a [routerLink]="['/produit', ecartStock.produitId , 'view']" >{{ ecartStock.produitId }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="ecartStock.auditId">
+                            <a [routerLink]="['/audit-stock', ecartStock.auditId , 'view']" >{{ ecartStock.auditId }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/ecart-stock', ecartStock.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/ecart-stock', ecartStock.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(ecartStock)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>-->
+
+    <div *ngIf="ecartStocks && ecartStocks.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

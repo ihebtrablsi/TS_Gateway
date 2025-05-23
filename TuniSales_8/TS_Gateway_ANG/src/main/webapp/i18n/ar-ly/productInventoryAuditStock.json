@@ -1,0 +1,30 @@
+{
+  "tsGatewayAngApp": {
+    "productInventoryAuditStock": {
+      "home": {
+        "title": "Audit Stocks",
+        "createLabel": "Create a new Audit Stock",
+        "createOrEditLabel": "Create or edit a Audit Stock",
+        "notFound": "No Audit Stocks found"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete Audit Stock {{ id }}?"
+      },
+      "detail": {
+        "title": "Audit Stock"
+      },
+      "dateAudit": "Date Audit",
+      "statut": "Statut",
+      "commentaire": "Commentaire",
+      "ecart": "Ecart",
+      "depot": "Depot"
+    }
+  },
+  "productInventoryApp": {
+    "productInventoryAuditStock": {
+      "created": "A new Audit Stock is created with identifier {{ param }}",
+      "updated": "A Audit Stock is updated with identifier {{ param }}",
+      "deleted": "A Audit Stock is deleted with identifier {{ param }}"
+    }
+  }
+}
