@@ -1,16 +1,27 @@
 package com.africom.productinventory.domain;
 
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonNodeBinaryType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * A FamilleProduit.
  */
 @Entity
 @Table(name = "famille_produit")
+@TypeDefs({
+    @TypeDef(name = "jsonb-node", typeClass = JsonNodeBinaryType.class),
+    @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class),
+})
 public class FamilleProduit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,8 +38,12 @@ public class FamilleProduit implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "options")
-    private String options;
+//    @Type(type = "jsonb")
+//    @Column(columnDefinition = "jsonb",name = "options")
+//    private Map<String, Object> options;
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb",name = "options")
+    private Object options;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -65,16 +80,16 @@ public class FamilleProduit implements Serializable {
         this.description = description;
     }
 
-    public String getOptions() {
+    public Object getOptions() {
         return options;
     }
 
-    public FamilleProduit options(String options) {
+    public FamilleProduit options(Object options) {
         this.options = options;
         return this;
     }
 
-    public void setOptions(String options) {
+    public void setOptions(Object options) {
         this.options = options;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

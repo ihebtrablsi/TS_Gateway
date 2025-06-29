@@ -3,6 +3,7 @@ package com.africom.productinventory.service;
 import com.africom.productinventory.domain.MouvementStock;
 import com.africom.productinventory.repository.MouvementStockRepository;
 import com.africom.productinventory.service.dto.MouvementStockDTO;
+import com.africom.productinventory.service.dto.ProduitDTO;
 import com.africom.productinventory.service.mapper.MouvementStockMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link MouvementStock}.
@@ -81,4 +84,19 @@ public class MouvementStockService {
         log.debug("Request to delete MouvementStock : {}", id);
         mouvementStockRepository.deleteById(id);
     }
+    public List<ProduitDTO> detecterProduitsEnRupture(List<ProduitDTO> produits) {
+        return produits.stream()
+            .filter(p -> p.getStock() < 5) // seuil IA ajustable
+            .collect(Collectors.toList());
+    }
+
+    public String suggérerRéapprovisionnement(ProduitDTO produit) {
+        String prompt = String.format("Le produit %s a un stock de %d. Suggère un niveau de commande optimal.", produit.getNom(), produit.getStock());
+        return openAiCall(prompt);
+    }
+
+    private String openAiCall(String prompt) {
+        return "Commander 100 unités"; // réponse simulée
+    }
+
 }

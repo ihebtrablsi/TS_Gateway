@@ -43,11 +43,11 @@ ribbon:
 feign:
   hystrix:
     enabled: true
-  # client:
-  #     config:
-  #         default:
-  #             connectTimeout: 5000
-  #             readTimeout: 5000
+    client:
+      config:
+        default:
+          connectTimeout: 5000
+          readTimeout: 5000
 
 # See https://github.com/Netflix/Hystrix/wiki/Configuration
 hystrix:
@@ -56,6 +56,8 @@ hystrix:
       execution:
         isolation:
           strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 5000
           # See https://github.com/spring-cloud/spring-cloud-netflix/issues/1330
           # thread:
           #     timeoutInMilliseconds: 10000
@@ -159,6 +161,10 @@ server:
     session:
       cookie:
         http-only: true
+  tomcat:
+    connection-timeout: 300000 # Timeout de connexion en millisecondes
+    max-wait: 300000 # Timeout de max-wait
+    keep-alive-timeout: 300000 # Timeout de maintien de la connexion
 
 # Properties to be exposed on the /info management endpoint
 info:

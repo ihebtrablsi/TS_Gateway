@@ -1,6 +1,11 @@
 package com.africom.productinventory.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonNodeBinaryType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -14,6 +19,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "produit")
+@TypeDefs({
+    @TypeDef(name = "jsonb-node", typeClass = JsonNodeBinaryType.class),
+    @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class),
+})
 public class Produit implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +55,9 @@ public class Produit implements Serializable {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "details")
-    private String details;
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb",name = "details")
+    private Object details;
 
     @OneToMany(mappedBy = "produit")
     private Set<Code> codes = new HashSet<>();
@@ -143,16 +153,16 @@ public class Produit implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public String getDetails() {
+    public Object getDetails() {
         return details;
     }
 
-    public Produit details(String details) {
+    public Produit details(Object details) {
         this.details = details;
         return this;
     }
 
-    public void setDetails(String details) {
+    public void setDetails(Object details) {
         this.details = details;
     }
 

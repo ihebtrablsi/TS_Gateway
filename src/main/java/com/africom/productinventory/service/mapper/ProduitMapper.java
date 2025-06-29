@@ -29,3 +29,4 @@ public interface ProduitMapper extends EntityMapper<ProduitDTO, Produit> {
         return produit;
     }
 }
+

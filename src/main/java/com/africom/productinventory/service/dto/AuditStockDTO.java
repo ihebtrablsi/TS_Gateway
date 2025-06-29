@@ -1,5 +1,7 @@
 package com.africom.productinventory.service.dto;
 
+import com.africom.productinventory.domain.enumeration.StatutAuditStock;
+
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * A DTO for the {@link com.africom.productinventory.domain.AuditStock} entity.
  */
 public class AuditStockDTO implements Serializable {
-    
+
     private Long id;
 
     @NotNull
@@ -21,7 +23,7 @@ public class AuditStockDTO implements Serializable {
 
 
     private Long depotId;
-    
+
     public Long getId() {
         return id;
     }

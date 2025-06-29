@@ -1,5 +1,7 @@
 package com.africom.productinventory.service.dto;
 
+import com.africom.productinventory.domain.enumeration.TypeMouvement;
+
 import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * A DTO for the {@link com.africom.productinventory.domain.MouvementStock} entity.
  */
 public class MouvementStockDTO implements Serializable {
-    
+
     private Long id;
 
     @NotNull
@@ -25,7 +27,7 @@ public class MouvementStockDTO implements Serializable {
     private Long produitId;
 
     private Long depotId;
-    
+
     public Long getId() {
         return id;
     }

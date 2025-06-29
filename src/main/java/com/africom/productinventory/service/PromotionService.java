@@ -1,12 +1,14 @@
 package com.africom.productinventory.service;
 
 import com.africom.productinventory.domain.Promotion;
+import com.africom.productinventory.repository.MouvementStockRepository;
 import com.africom.productinventory.repository.PromotionRepository;
 import com.africom.productinventory.service.dto.PromotionDTO;
 import com.africom.productinventory.service.mapper.PromotionMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import java.util.Optional;
 public class PromotionService {
 
     private final Logger log = LoggerFactory.getLogger(PromotionService.class);
+    @Autowired
+    private MouvementStockRepository mouvements;
 
     private final PromotionRepository promotionRepository;
 
@@ -80,5 +84,17 @@ public class PromotionService {
     public void delete(Long id) {
         log.debug("Request to delete Promotion : {}", id);
         promotionRepository.deleteById(id);
+    }
+    public long getStock(Long produitId) {
+        return mouvements.sumQuantiteByProduit(produitId).orElse(0L);
+    }
+
+    public PromotionDTO suggestPromotion(Long produitId) {
+        long stock = getStock(produitId);
+        double remiseRate = stock > 100 ? 10.0 : (stock > 50 ? 5.0 : 0.0);
+        PromotionDTO dto = new PromotionDTO();
+        dto.setRemise(remiseRate);
+        dto.setNom("Promo auto → " + remiseRate + "%");
+        return dto;
     }
 }

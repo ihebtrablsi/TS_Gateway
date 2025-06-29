@@ -5,6 +5,11 @@
       "fieldName": "code",
       "fieldType": "String",
       "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "typeCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [
@@ -25,7 +30,9 @@
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,
-  "clientRootFolder": "",
+  "clientRootFolder": "ProductInventory",
   "applications": ["TS_Gateway_ANG", "ProductInventory"],
-  "microserviceName": "ProductInventory"
+  "microserviceName": "ProductInventory",
+  "searchEngine": false,
+  "databaseType": "sql"
 }

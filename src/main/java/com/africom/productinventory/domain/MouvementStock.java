@@ -23,6 +23,7 @@ public class MouvementStock implements Serializable {
     private Long id;
 
     @NotNull
+    //@Enumerated(EnumType.STRING)
     @Column(name = "type_mouvement", nullable = false)
     private String typeMouvement;
 

@@ -1,5 +1,7 @@
 package com.africom.productinventory.service.dto;
 
+import com.africom.productinventory.domain.enumeration.TypeDepot;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 
@@ -7,7 +9,7 @@ import java.io.Serializable;
  * A DTO for the {@link com.africom.productinventory.domain.Depot} entity.
  */
 public class DepotDTO implements Serializable {
-    
+
     private Long id;
 
     @NotNull
@@ -23,7 +25,7 @@ public class DepotDTO implements Serializable {
     @Min(value = 0)
     private Integer capacite;
 
-    
+
     public Long getId() {
         return id;
     }

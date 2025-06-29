@@ -1,6 +1,7 @@
 package com.africom.productinventory.web.rest;
 
 import com.africom.productinventory.service.ProduitService;
+import com.africom.productinventory.service.dto.StockUpdateDTO;
 import com.africom.productinventory.web.rest.errors.BadRequestAlertException;
 import com.africom.productinventory.service.dto.ProduitDTO;
 
@@ -14,14 +15,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -123,4 +128,83 @@ public class ProduitResource {
         produitService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/produits/by-famille/{familleId}")
+    public List<ProduitDTO> getProduitsByFamille(@PathVariable Long familleId) {
+        return produitService.findAllByFamilleId(familleId);
+    }
+
+    @GetMapping(value = "/produits/export/famille/{familleId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> exportProduitsByFamille(@PathVariable Long familleId) throws IOException {
+        byte[] fichierExcel = produitService.exportProduitsByFamilleToExcel(familleId);
+        if (fichierExcel == null || fichierExcel.length == 0) {
+            return ResponseEntity.noContent().build();
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=produits_famille_" + familleId +  ".xlsx");
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        return ResponseEntity.ok().headers(headers).body(fichierExcel);
+    }
+    /**
+     * PUT /produits/{id}/decrement : décrémente le stock du produit.
+     */
+    @PutMapping("/produits/{id}/decrement")
+    public ResponseEntity<ProduitDTO> decrementStock(
+        @PathVariable Long id,
+        @RequestParam("quantite") int quantite) {
+        ProduitDTO result = produitService.decrementStock(id, quantite);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * PUT /produits/{id}/increment : incrémente le stock du produit.
+     */
+    @PutMapping("/produits/{id}/increment")
+    public ResponseEntity<ProduitDTO> incrementStock(
+        @PathVariable Long id,
+        @RequestParam("quantite") int quantite) {
+        ProduitDTO result = produitService.incrementStock(id, quantite);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * GET /produits/lowStock?seuil=X : retourne produits à stock < seuil.
+     */
+    @GetMapping("/produits/lowStock")
+    public ResponseEntity<List<ProduitDTO>> getLowStock(@RequestParam("seuil") int seuil) {
+        List<ProduitDTO> list = produitService.findLowStock(seuil);
+        return ResponseEntity.ok(list);
+    }
+    @GetMapping("/produits/tendances")
+    public ResponseEntity<Map<String, Integer>> getTendancesProduits() {
+        Map<String, Integer> tendances = produitService.analyserTendancesProduitsParStock();
+        return ResponseEntity.ok(tendances);
+    }
+    @GetMapping("/produits/rentabilite")
+    public ResponseEntity<List<Map<String, Object>>> getRentabiliteProduits() {
+        log.debug("REST request to get rentabilité des produits");
+        return ResponseEntity.ok(produitService.analyserRentabiliteProduits());
+    }
+
+    @GetMapping("/produits/demande-predite")
+    public ResponseEntity<Map<String, Integer>> predireDemande() {
+        return ResponseEntity.ok(produitService.predireDemandeProduits());
+    }
+
+    @PutMapping("/produits/{id}/stock")
+    public ResponseEntity<Void> mettreAJourStock(@PathVariable Long id, @RequestBody Integer nouveauStock) {
+        if (nouveauStock == null) {
+            throw new BadRequestAlertException("Stock manquant", "produit", "stocknull");
+        }
+        produitService.mettreAJourStockProduit(id, nouveauStock);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/produit/{id}/stock")
+    public ResponseEntity<Void> mettreAJourStock(@PathVariable Long id, @RequestBody StockUpdateDTO stockUpdateDTO) {
+        log.debug("REST request to update stock for produit {} with {}", id, stockUpdateDTO.getNouveauStock());
+        produitService.mettreAJourStockProduit(id, stockUpdateDTO.getNouveauStock());
+        return ResponseEntity.ok().build();
+    }
+
 }

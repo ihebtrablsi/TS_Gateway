@@ -7,7 +7,7 @@ import java.io.Serializable;
  * A DTO for the {@link com.africom.productinventory.domain.Produit} entity.
  */
 public class ProduitDTO implements Serializable {
-    
+
     private Long id;
 
     @NotNull
@@ -27,11 +27,11 @@ public class ProduitDTO implements Serializable {
 
     private String imageUrl;
 
-    private String details;
+    private Object details;
 
 
     private Long familleId;
-    
+
     public Long getId() {
         return id;
     }
@@ -88,11 +88,11 @@ public class ProduitDTO implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public String getDetails() {
+    public Object getDetails() {
         return details;
     }
 
-    public void setDetails(String details) {
+    public void setDetails(Object details) {
         this.details = details;
     }
 

@@ -29,6 +29,7 @@ public class Depot implements Serializable {
     private String adresse;
 
     @NotNull
+    //@Enumerated(EnumType.STRING)
     @Column(name = "type_depot", nullable = false)
     private String typeDepot;
 

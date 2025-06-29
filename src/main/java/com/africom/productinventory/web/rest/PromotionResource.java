@@ -123,4 +123,13 @@ public class PromotionResource {
         promotionService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Long> getStock(@PathVariable Long id) {
+        return ResponseEntity.ok(promotionService.getStock(id));
+    }
+
+    @GetMapping("/promotions/{id}/suggest-promo")
+    public ResponseEntity<PromotionDTO> suggestPromo(@PathVariable Long id) {
+        return ResponseEntity.ok(promotionService.suggestPromotion(id));
+    }
 }

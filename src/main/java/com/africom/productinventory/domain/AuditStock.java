@@ -29,6 +29,7 @@ public class AuditStock implements Serializable {
     private Instant dateAudit;
 
     @NotNull
+    //@Enumerated(EnumType.STRING)
     @Column(name = "statut", nullable = false)
     private String statut;
 

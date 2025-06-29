@@ -24,6 +24,9 @@ public class Code implements Serializable {
     @NotNull
     @Column(name = "code", nullable = false, unique = true)
     private String code;
+    @NotNull
+    @Column(name = "type_code")
+    private String typeCode;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "codes", allowSetters = true)
@@ -49,6 +52,19 @@ public class Code implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public Code typeCode(String typeCode) {
+        this.typeCode = typeCode;
+        return this;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
     }
 
     public Produit getProduit() {
@@ -87,6 +103,7 @@ public class Code implements Serializable {
         return "Code{" +
             "id=" + getId() +
             ", code='" + getCode() + "'" +
+            ", typeCode='" + getTypeCode() + "'" +
             "}";
     }
 }

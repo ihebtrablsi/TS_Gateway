@@ -13,6 +13,8 @@ public class CodeDTO implements Serializable {
     @NotNull
     private String code;
 
+    private String typeCode;
+
 
     private Long produitId;
     
@@ -30,6 +32,14 @@ public class CodeDTO implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
     }
 
     public Long getProduitId() {
@@ -63,6 +73,7 @@ public class CodeDTO implements Serializable {
         return "CodeDTO{" +
             "id=" + getId() +
             ", code='" + getCode() + "'" +
+            ", typeCode='" + getTypeCode() + "'" +
             ", produitId=" + getProduitId() +
             "}";
     }
